@@ -1,6 +1,6 @@
 # OpenMaui Linux Samples
 
-Sample applications demonstrating [OpenMaui Linux](https://github.com/open-maui/maui-linux) - .NET MAUI on Linux.
+Sample applications demonstrating [OpenMaui Linux](https://git.marketally.com/open-maui/maui-linux) - .NET MAUI on Linux.
 
 ## Samples
 
@@ -19,7 +19,7 @@ Sample applications demonstrating [OpenMaui Linux](https://github.com/open-maui/
 
 ```bash
 # Clone the samples
-git clone https://github.com/open-maui/maui-linux-samples.git
+git clone https://git.marketally.com/open-maui/maui-linux-samples.git
 cd maui-linux-samples
 
 # Run TodoApp
@@ -68,7 +68,7 @@ A comprehensive control gallery demonstrating:
 
 ## Related
 
-- [OpenMaui Linux Framework](https://github.com/open-maui/maui-linux) - The core framework
+- [OpenMaui Linux Framework](https://git.marketally.com/open-maui/maui-linux) - The core framework
 - [NuGet Package](https://www.nuget.org/packages/OpenMaui.Controls.Linux) - Install via NuGet
 
 ## License
