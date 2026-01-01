@@ -1,81 +1,108 @@
-// TodoItem - Data model for a todo item
-
+using System;
 using System.ComponentModel;
 
 namespace TodoApp;
 
 public class TodoItem : INotifyPropertyChanged
 {
-    private string _title = "";
-    private string _notes = "";
-    private bool _isCompleted;
-    private DateTime _dueDate;
+	private string _title = "";
 
-    public int Id { get; set; }
+	private string _notes = "";
 
-    /// <summary>
-    /// Index in the collection for alternating row colors.
-    /// </summary>
-    public int Index { get; set; }
+	private bool _isCompleted;
 
-    public string Title
-    {
-        get => _title;
-        set
-        {
-            if (_title != value)
-            {
-                _title = value;
-                OnPropertyChanged(nameof(Title));
-            }
-        }
-    }
+	private DateTime _dueDate;
 
-    public string Notes
-    {
-        get => _notes;
-        set
-        {
-            if (_notes != value)
-            {
-                _notes = value;
-                OnPropertyChanged(nameof(Notes));
-            }
-        }
-    }
+	private int _index;
 
-    public bool IsCompleted
-    {
-        get => _isCompleted;
-        set
-        {
-            if (_isCompleted != value)
-            {
-                _isCompleted = value;
-                OnPropertyChanged(nameof(IsCompleted));
-            }
-        }
-    }
+	public int Id { get; set; }
 
-    public DateTime DueDate
-    {
-        get => _dueDate;
-        set
-        {
-            if (_dueDate != value)
-            {
-                _dueDate = value;
-                OnPropertyChanged(nameof(DueDate));
-            }
-        }
-    }
+	public int Index
+	{
+		get
+		{
+			return _index;
+		}
+		set
+		{
+			if (_index != value)
+			{
+				_index = value;
+				OnPropertyChanged("Index");
+			}
+		}
+	}
 
-    public DateTime CreatedAt { get; set; } = DateTime.Now;
+	public string Title
+	{
+		get
+		{
+			return _title;
+		}
+		set
+		{
+			if (_title != value)
+			{
+				_title = value;
+				OnPropertyChanged("Title");
+			}
+		}
+	}
 
-    public event PropertyChangedEventHandler? PropertyChanged;
+	public string Notes
+	{
+		get
+		{
+			return _notes;
+		}
+		set
+		{
+			if (_notes != value)
+			{
+				_notes = value;
+				OnPropertyChanged("Notes");
+			}
+		}
+	}
 
-    protected void OnPropertyChanged(string propertyName)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
+	public bool IsCompleted
+	{
+		get
+		{
+			return _isCompleted;
+		}
+		set
+		{
+			if (_isCompleted != value)
+			{
+				_isCompleted = value;
+				OnPropertyChanged("IsCompleted");
+			}
+		}
+	}
+
+	public DateTime DueDate
+	{
+		get
+		{
+			return _dueDate;
+		}
+		set
+		{
+			if (_dueDate != value)
+			{
+				_dueDate = value;
+				OnPropertyChanged("DueDate");
+			}
+		}
+	}
+
+	public DateTime CreatedAt { get; set; } = DateTime.Now;
+
+	public event PropertyChangedEventHandler? PropertyChanged;
+
+	protected void OnPropertyChanged(string propertyName)
+	{
+		this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+	}
 }
