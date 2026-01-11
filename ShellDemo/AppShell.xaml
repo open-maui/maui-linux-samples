@@ -44,92 +44,56 @@
     </Shell.FlyoutHeader>
 
     <!-- Home -->
-    <FlyoutItem Title="Home" Route="Home">
-        <FlyoutItem.Icon>
-            <FontImageSource Glyph="&#x1F3E0;"
-                             FontFamily="Default"
-                             Color="{AppThemeBinding Light={StaticResource PrimaryColor}, Dark={StaticResource PrimaryColor}}" />
-        </FlyoutItem.Icon>
+    <FlyoutItem Title="Home" Route="Home"
+                Icon="{AppThemeBinding Light=home_light.svg, Dark=home_dark.svg}">
         <ShellContent ContentTemplate="{DataTemplate local:HomePage}" />
     </FlyoutItem>
 
     <!-- Buttons -->
-    <FlyoutItem Title="Buttons" Route="Buttons">
-        <FlyoutItem.Icon>
-            <FontImageSource Glyph="&#x1F518;"
-                             FontFamily="Default"
-                             Color="{AppThemeBinding Light={StaticResource PrimaryColor}, Dark={StaticResource PrimaryColor}}" />
-        </FlyoutItem.Icon>
+    <FlyoutItem Title="Buttons" Route="Buttons"
+                Icon="{AppThemeBinding Light=smart_button_light.svg, Dark=smart_button_dark.svg}">
         <ShellContent ContentTemplate="{DataTemplate local:ButtonsPage}" />
     </FlyoutItem>
 
     <!-- Text Input -->
-    <FlyoutItem Title="Text Input" Route="TextInput">
-        <FlyoutItem.Icon>
-            <FontImageSource Glyph="&#x1F4DD;"
-                             FontFamily="Default"
-                             Color="{AppThemeBinding Light={StaticResource PrimaryColor}, Dark={StaticResource PrimaryColor}}" />
-        </FlyoutItem.Icon>
+    <FlyoutItem Title="Text Input" Route="TextInput"
+                Icon="{AppThemeBinding Light=edit_note_light.svg, Dark=edit_note_dark.svg}">
         <ShellContent ContentTemplate="{DataTemplate local:TextInputPage}" />
     </FlyoutItem>
 
     <!-- Selection -->
-    <FlyoutItem Title="Selection" Route="Selection">
-        <FlyoutItem.Icon>
-            <FontImageSource Glyph="&#x2611;"
-                             FontFamily="Default"
-                             Color="{AppThemeBinding Light={StaticResource PrimaryColor}, Dark={StaticResource PrimaryColor}}" />
-        </FlyoutItem.Icon>
+    <FlyoutItem Title="Selection" Route="Selection"
+                Icon="{AppThemeBinding Light=check_box_light.svg, Dark=check_box_dark.svg}">
         <ShellContent ContentTemplate="{DataTemplate local:SelectionPage}" />
     </FlyoutItem>
 
     <!-- Pickers -->
-    <FlyoutItem Title="Pickers" Route="Pickers">
-        <FlyoutItem.Icon>
-            <FontImageSource Glyph="&#x1F4C5;"
-                             FontFamily="Default"
-                             Color="{AppThemeBinding Light={StaticResource PrimaryColor}, Dark={StaticResource PrimaryColor}}" />
-        </FlyoutItem.Icon>
+    <FlyoutItem Title="Pickers" Route="Pickers"
+                Icon="{AppThemeBinding Light=calendar_month_light.svg, Dark=calendar_month_dark.svg}">
         <ShellContent ContentTemplate="{DataTemplate local:PickersPage}" />
     </FlyoutItem>
 
     <!-- Lists -->
-    <FlyoutItem Title="Lists" Route="Lists">
-        <FlyoutItem.Icon>
-            <FontImageSource Glyph="&#x1F4CB;"
-                             FontFamily="Default"
-                             Color="{AppThemeBinding Light={StaticResource PrimaryColor}, Dark={StaticResource PrimaryColor}}" />
-        </FlyoutItem.Icon>
+    <FlyoutItem Title="Lists" Route="Lists"
+                Icon="{AppThemeBinding Light=format_list_bulleted_light.svg, Dark=format_list_bulleted_dark.svg}">
         <ShellContent ContentTemplate="{DataTemplate local:ListsPage}" />
     </FlyoutItem>
 
     <!-- Progress -->
-    <FlyoutItem Title="Progress" Route="Progress">
-        <FlyoutItem.Icon>
-            <FontImageSource Glyph="&#x23F3;"
-                             FontFamily="Default"
-                             Color="{AppThemeBinding Light={StaticResource PrimaryColor}, Dark={StaticResource PrimaryColor}}" />
-        </FlyoutItem.Icon>
+    <FlyoutItem Title="Progress" Route="Progress"
+                Icon="{AppThemeBinding Light=hourglass_empty_light.svg, Dark=hourglass_empty_dark.svg}">
         <ShellContent ContentTemplate="{DataTemplate local:ProgressPage}" />
     </FlyoutItem>
 
     <!-- Grids -->
-    <FlyoutItem Title="Grids" Route="Grids">
-        <FlyoutItem.Icon>
-            <FontImageSource Glyph="&#x1F4CA;"
-                             FontFamily="Default"
-                             Color="{AppThemeBinding Light={StaticResource PrimaryColor}, Dark={StaticResource PrimaryColor}}" />
-        </FlyoutItem.Icon>
+    <FlyoutItem Title="Grids" Route="Grids"
+                Icon="{AppThemeBinding Light=grid_view_light.svg, Dark=grid_view_dark.svg}">
         <ShellContent ContentTemplate="{DataTemplate local:GridsPage}" />
     </FlyoutItem>
 
     <!-- About -->
-    <FlyoutItem Title="About" Route="About">
-        <FlyoutItem.Icon>
-            <FontImageSource Glyph="&#x2139;"
-                             FontFamily="Default"
-                             Color="{AppThemeBinding Light={StaticResource PrimaryColor}, Dark={StaticResource PrimaryColor}}" />
-        </FlyoutItem.Icon>
+    <FlyoutItem Title="About" Route="About"
+                Icon="{AppThemeBinding Light=info_light.svg, Dark=info_dark.svg}">
         <ShellContent ContentTemplate="{DataTemplate local:AboutPage}" />
     </FlyoutItem>
 

@@ -9,7 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="OpenMaui.Controls.Linux" Version="1.0.0-preview.*" />
+    <ProjectReference Include="../../maui-linux/OpenMaui.Controls.Linux.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Images\*.svg" />
   </ItemGroup>
 
 </Project>

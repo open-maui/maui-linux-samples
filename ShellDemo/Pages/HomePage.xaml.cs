@@ -1,6 +1,7 @@
 // HomePage - Welcome page for the demo
 
 using Microsoft.Maui.Controls;
+using Microsoft.Maui.Controls.Shapes;
 using Microsoft.Maui.Graphics;
 using Microsoft.Maui.Platform.Linux.Hosting;
 

@@ -1,0 +1,36 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebViewDemo", "WebViewDemo\WebViewDemo.csproj", "{B618D6BA-4BF5-E05A-6F0B-01B7A34C9773}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShellDemo", "ShellDemo\ShellDemo.csproj", "{A49DDD9B-45BF-6D60-C334-CBC81254F8BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoApp", "TodoApp\TodoApp.csproj", "{5480FAA2-4085-4140-B92A-C61C23E9C67A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B618D6BA-4BF5-E05A-6F0B-01B7A34C9773}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B618D6BA-4BF5-E05A-6F0B-01B7A34C9773}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B618D6BA-4BF5-E05A-6F0B-01B7A34C9773}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B618D6BA-4BF5-E05A-6F0B-01B7A34C9773}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A49DDD9B-45BF-6D60-C334-CBC81254F8BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A49DDD9B-45BF-6D60-C334-CBC81254F8BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A49DDD9B-45BF-6D60-C334-CBC81254F8BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A49DDD9B-45BF-6D60-C334-CBC81254F8BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5480FAA2-4085-4140-B92A-C61C23E9C67A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5480FAA2-4085-4140-B92A-C61C23E9C67A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5480FAA2-4085-4140-B92A-C61C23E9C67A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5480FAA2-4085-4140-B92A-C61C23E9C67A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {84FA1771-C9A8-4550-AD7F-0EA3DACCC3B7}
+	EndGlobalSection
+EndGlobal

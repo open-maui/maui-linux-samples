@@ -4,20 +4,10 @@
              xmlns:local="clr-namespace:TodoApp"
              x:Class="TodoApp.TodoListPage"
              Title="My Tasks"
-             BackgroundColor="#F5F7FA">
+             BackgroundColor="{AppThemeBinding Light={StaticResource PageBackgroundLight}, Dark={StaticResource PageBackgroundDark}}">
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            <!-- Colors -->
-            <Color x:Key="PrimaryColor">#5C6BC0</Color>
-            <Color x:Key="PrimaryDark">#3949AB</Color>
-            <Color x:Key="AccentColor">#26A69A</Color>
-            <Color x:Key="TextPrimary">#212121</Color>
-            <Color x:Key="TextSecondary">#757575</Color>
-            <Color x:Key="CardBackground">#FFFFFF</Color>
-            <Color x:Key="DividerColor">#E0E0E0</Color>
-            <Color x:Key="CompletedColor">#9E9E9E</Color>
-
             <!-- Converters -->
             <local:AlternatingRowColorConverter x:Key="AlternatingRowColorConverter" />
             <local:CompletedToColorConverter x:Key="CompletedToColorConverter" />
@@ -27,7 +17,9 @@
     </ContentPage.Resources>
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="+ Add" Clicked="OnAddClicked" />
+        <ToolbarItem Text="Add"
+                     IconImageSource="add_white.svg"
+                     Clicked="OnAddClicked" />
     </ContentPage.ToolbarItems>
 
     <Grid RowDefinitions="*,Auto" Padding="0">
@@ -47,11 +39,11 @@
                                      Padding="40">
                     <Label Text="No tasks yet"
                            FontSize="22"
-                           TextColor="{StaticResource TextSecondary}"
+                           TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
                            HorizontalOptions="Center" />
                     <Label Text="Tap '+ Add' to create your first task"
                            FontSize="14"
-                           TextColor="{StaticResource TextSecondary}"
+                           TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
                            HorizontalOptions="Center"
                            Margin="0,8,0,0" />
                 </VerticalStackLayout>
@@ -62,7 +54,7 @@
                     <!-- Card-style item -->
                     <Grid Padding="0,6" BackgroundColor="Transparent">
                         <Border StrokeThickness="0"
-                                BackgroundColor="{StaticResource CardBackground}"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource CardBackgroundLight}, Dark={StaticResource CardBackgroundDark}}"
                                 Padding="16,14"
                                 Opacity="{Binding IsCompleted, Converter={StaticResource CompletedToOpacityConverter}}">
                             <Border.StrokeShape>

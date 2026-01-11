@@ -80,17 +80,23 @@ public partial class TodoListPage : ContentPage
 }
 
 /// <summary>
-/// Converter for alternating row background colors.
+/// Converter for alternating row background colors with Light/Dark mode support.
 /// </summary>
 public class AlternatingRowColorConverter : IValueConverter
 {
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
+        bool isDarkMode = Application.Current?.RequestedTheme == AppTheme.Dark;
+
         if (value is int index)
         {
+            if (isDarkMode)
+            {
+                return index % 2 == 0 ? Color.FromArgb("#1E1E1E") : Color.FromArgb("#2A2A2A");
+            }
             return index % 2 == 0 ? Colors.White : Color.FromArgb("#F5F5F5");
         }
-        return Colors.White;
+        return isDarkMode ? Color.FromArgb("#1E1E1E") : Colors.White;
     }
 
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
@@ -100,21 +106,25 @@ public class AlternatingRowColorConverter : IValueConverter
 }
 
 /// <summary>
-/// Converter for completed task text color and indicator color.
+/// Converter for completed task text color and indicator color with Light/Dark mode support.
 /// </summary>
 public class CompletedToColorConverter : IValueConverter
 {
-    // Define colors
-    private static readonly Color PrimaryColor = Color.FromArgb("#5C6BC0");
+    // Light theme colors
     private static readonly Color AccentColor = Color.FromArgb("#26A69A");
     private static readonly Color CompletedColor = Color.FromArgb("#9E9E9E");
-    private static readonly Color TextPrimary = Color.FromArgb("#212121");
-    private static readonly Color TextSecondary = Color.FromArgb("#757575");
+    private static readonly Color TextPrimaryLight = Color.FromArgb("#212121");
+    private static readonly Color TextSecondaryLight = Color.FromArgb("#757575");
+
+    // Dark theme colors
+    private static readonly Color TextPrimaryDark = Color.FromArgb("#FFFFFF");
+    private static readonly Color TextSecondaryDark = Color.FromArgb("#B0B0B0");
 
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         bool isCompleted = value is bool b && b;
         string param = parameter as string ?? "";
+        bool isDarkMode = Application.Current?.RequestedTheme == AppTheme.Dark;
 
         // Indicator bar color
         if (param == "indicator")
@@ -122,14 +132,18 @@ public class CompletedToColorConverter : IValueConverter
             return isCompleted ? CompletedColor : AccentColor;
         }
 
-        // Text colors
+        // Text colors with theme support
         if (isCompleted)
         {
             return CompletedColor;
         }
         else
         {
-            return param == "notes" ? TextSecondary : TextPrimary;
+            if (param == "notes")
+            {
+                return isDarkMode ? TextSecondaryDark : TextSecondaryLight;
+            }
+            return isDarkMode ? TextPrimaryDark : TextPrimaryLight;
         }
     }
 

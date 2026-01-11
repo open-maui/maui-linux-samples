@@ -3,19 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TodoApp.NewTodoPage"
              Title="New Task"
-             BackgroundColor="#F5F7FA">
-
-    <ContentPage.Resources>
-        <Color x:Key="PrimaryColor">#5C6BC0</Color>
-        <Color x:Key="AccentColor">#26A69A</Color>
-        <Color x:Key="TextPrimary">#212121</Color>
-        <Color x:Key="TextSecondary">#757575</Color>
-        <Color x:Key="CardBackground">#FFFFFF</Color>
-        <Color x:Key="BorderColor">#E8EAF6</Color>
-    </ContentPage.Resources>
+             BackgroundColor="{AppThemeBinding Light={StaticResource PageBackgroundLight}, Dark={StaticResource PageBackgroundDark}}">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Save" Clicked="OnSaveClicked" />
+        <ToolbarItem Text="Save"
+                     IconImageSource="save_white.svg"
+                     Clicked="OnSaveClicked" />
     </ContentPage.ToolbarItems>
 
     <Grid RowDefinitions="Auto,Auto,Auto,*" RowSpacing="16" Padding="20">
@@ -24,10 +17,10 @@
         <VerticalStackLayout Grid.Row="0" Spacing="4">
             <Label Text="Create a new task"
                    FontSize="24"
-                   TextColor="{StaticResource TextPrimary}" />
+                   TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
             <Label Text="Fill in the details below"
                    FontSize="14"
-                   TextColor="{StaticResource TextSecondary}" />
+                   TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
         </VerticalStackLayout>
 
         <!-- Title Section -->
@@ -36,8 +29,8 @@
                    FontSize="13"
                    FontAttributes="Bold"
                    TextColor="{StaticResource PrimaryColor}" />
-            <Border BackgroundColor="{StaticResource CardBackground}"
-                    Stroke="{StaticResource BorderColor}"
+            <Border BackgroundColor="{AppThemeBinding Light={StaticResource CardBackgroundLight}, Dark={StaticResource CardBackgroundDark}}"
+                    Stroke="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"
                     StrokeThickness="1"
                     Padding="16,12">
                 <Border.StrokeShape>
@@ -46,8 +39,8 @@
                 <Entry x:Name="TitleEntry"
                        Placeholder="What needs to be done?"
                        FontSize="18"
-                       TextColor="{StaticResource TextPrimary}"
-                       PlaceholderColor="{StaticResource TextSecondary}" />
+                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}"
+                       PlaceholderColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
             </Border>
         </VerticalStackLayout>
 
@@ -60,8 +53,8 @@
 
         <!-- Notes Section (fills remaining space) -->
         <Border Grid.Row="3"
-                BackgroundColor="{StaticResource CardBackground}"
-                Stroke="{StaticResource BorderColor}"
+                BackgroundColor="{AppThemeBinding Light={StaticResource CardBackgroundLight}, Dark={StaticResource CardBackgroundDark}}"
+                Stroke="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"
                 StrokeThickness="1"
                 Padding="16,12">
             <Border.StrokeShape>
@@ -70,8 +63,8 @@
             <Editor x:Name="NotesEditor"
                     Placeholder="Add notes (optional)..."
                     FontSize="14"
-                    TextColor="{StaticResource TextPrimary}"
-                    PlaceholderColor="{StaticResource TextSecondary}"
+                    TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}"
+                    PlaceholderColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
                     VerticalOptions="Fill" />
         </Border>
 

@@ -12,4 +12,8 @@
     <ProjectReference Include="../../maui-linux/OpenMaui.Controls.Linux.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Images\*.svg" />
+  </ItemGroup>
+
 </Project>
