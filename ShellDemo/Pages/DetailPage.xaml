@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ShellDemo.DetailPage"
+             Title="Detail Page"
+             BackgroundColor="{AppThemeBinding Light={StaticResource PageBackgroundLight}, Dark={StaticResource PageBackgroundDark}}">
+
+    <VerticalStackLayout Padding="30"
+                         Spacing="20"
+                         VerticalOptions="Center">
+
+        <Label Text="Pushed Page"
+               FontSize="28"
+               FontAttributes="Bold"
+               HorizontalOptions="Center"
+               TextColor="{StaticResource PurpleColor}" />
+
+        <Label x:Name="ItemNameLabel"
+               Text="You navigated to: Detail Item"
+               FontSize="16"
+               HorizontalOptions="Center"
+               TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+
+        <Label Text="This page was pushed onto the navigation stack using Shell.Current.GoToAsync()"
+               FontSize="14"
+               TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+               HorizontalTextAlignment="Center"
+               LineBreakMode="WordWrap" />
+
+        <BoxView Style="{StaticResource ThemedDivider}" Margin="0,20" />
+
+        <Button x:Name="BackButton"
+                Text="Go Back (Pop)"
+                BackgroundColor="{StaticResource PurpleColor}"
+                TextColor="White"
+                HorizontalOptions="Center"
+                Padding="30,10"
+                CornerRadius="5"
+                Clicked="OnBackClicked" />
+
+        <Label Text="Use the back button above or the hardware/gesture back to pop this page"
+               FontSize="12"
+               TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+               HorizontalTextAlignment="Center"
+               Margin="0,20,0,0" />
+
+    </VerticalStackLayout>
+</ContentPage>

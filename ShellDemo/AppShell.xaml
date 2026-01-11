@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:local="clr-namespace:ShellDemo"
+       x:Class="ShellDemo.AppShell"
+       Title="OpenMaui Controls Demo"
+       FlyoutBehavior="Flyout"
+       FlyoutBackgroundColor="{AppThemeBinding Light={StaticResource FlyoutBackgroundLight}, Dark={StaticResource FlyoutBackgroundDark}}"
+       Shell.BackgroundColor="{AppThemeBinding Light={StaticResource ShellBackgroundLight}, Dark={StaticResource ShellBackgroundDark}}"
+       Shell.ForegroundColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}"
+       Shell.TitleColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}">
+
+    <!-- Flyout Header -->
+    <Shell.FlyoutHeader>
+        <Grid BackgroundColor="{AppThemeBinding Light={StaticResource FlyoutHeaderBackgroundLight}, Dark={StaticResource FlyoutHeaderBackgroundDark}}"
+              HeightRequest="140"
+              Padding="15">
+            <HorizontalStackLayout VerticalOptions="Center" Spacing="12">
+                <Border WidthRequest="60"
+                        HeightRequest="60"
+                        StrokeThickness="0"
+                        BackgroundColor="{AppThemeBinding Light=White, Dark=#2C2C2C}">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="30" />
+                    </Border.StrokeShape>
+                    <Label Text="OM"
+                           FontSize="24"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource PrimaryColor}"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center" />
+                </Border>
+                <VerticalStackLayout VerticalOptions="Center">
+                    <Label Text="OpenMaui"
+                           FontSize="22"
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light=White, Dark=#E0E0E0}" />
+                    <Label Text="Controls Demo"
+                           FontSize="13"
+                           TextColor="{AppThemeBinding Light=#E0E0E0, Dark=#B0B0B0}" />
+                </VerticalStackLayout>
+            </HorizontalStackLayout>
+        </Grid>
+    </Shell.FlyoutHeader>
+
+    <!-- Home -->
+    <FlyoutItem Title="Home" Route="Home">
+        <FlyoutItem.Icon>
+            <FontImageSource Glyph="&#x1F3E0;"
+                             FontFamily="Default"
+                             Color="{AppThemeBinding Light={StaticResource PrimaryColor}, Dark={StaticResource PrimaryColor}}" />
+        </FlyoutItem.Icon>
+        <ShellContent ContentTemplate="{DataTemplate local:HomePage}" />
+    </FlyoutItem>
+
+    <!-- Buttons -->
+    <FlyoutItem Title="Buttons" Route="Buttons">
+        <FlyoutItem.Icon>
+            <FontImageSource Glyph="&#x1F518;"
+                             FontFamily="Default"
+                             Color="{AppThemeBinding Light={StaticResource PrimaryColor}, Dark={StaticResource PrimaryColor}}" />
+        </FlyoutItem.Icon>
+        <ShellContent ContentTemplate="{DataTemplate local:ButtonsPage}" />
+    </FlyoutItem>
+
+    <!-- Text Input -->
+    <FlyoutItem Title="Text Input" Route="TextInput">
+        <FlyoutItem.Icon>
+            <FontImageSource Glyph="&#x1F4DD;"
+                             FontFamily="Default"
+                             Color="{AppThemeBinding Light={StaticResource PrimaryColor}, Dark={StaticResource PrimaryColor}}" />
+        </FlyoutItem.Icon>
+        <ShellContent ContentTemplate="{DataTemplate local:TextInputPage}" />
+    </FlyoutItem>
+
+    <!-- Selection -->
+    <FlyoutItem Title="Selection" Route="Selection">
+        <FlyoutItem.Icon>
+            <FontImageSource Glyph="&#x2611;"
+                             FontFamily="Default"
+                             Color="{AppThemeBinding Light={StaticResource PrimaryColor}, Dark={StaticResource PrimaryColor}}" />
+        </FlyoutItem.Icon>
+        <ShellContent ContentTemplate="{DataTemplate local:SelectionPage}" />
+    </FlyoutItem>
+
+    <!-- Pickers -->
+    <FlyoutItem Title="Pickers" Route="Pickers">
+        <FlyoutItem.Icon>
+            <FontImageSource Glyph="&#x1F4C5;"
+                             FontFamily="Default"
+                             Color="{AppThemeBinding Light={StaticResource PrimaryColor}, Dark={StaticResource PrimaryColor}}" />
+        </FlyoutItem.Icon>
+        <ShellContent ContentTemplate="{DataTemplate local:PickersPage}" />
+    </FlyoutItem>
+
+    <!-- Lists -->
+    <FlyoutItem Title="Lists" Route="Lists">
+        <FlyoutItem.Icon>
+            <FontImageSource Glyph="&#x1F4CB;"
+                             FontFamily="Default"
+                             Color="{AppThemeBinding Light={StaticResource PrimaryColor}, Dark={StaticResource PrimaryColor}}" />
+        </FlyoutItem.Icon>
+        <ShellContent ContentTemplate="{DataTemplate local:ListsPage}" />
+    </FlyoutItem>
+
+    <!-- Progress -->
+    <FlyoutItem Title="Progress" Route="Progress">
+        <FlyoutItem.Icon>
+            <FontImageSource Glyph="&#x23F3;"
+                             FontFamily="Default"
+                             Color="{AppThemeBinding Light={StaticResource PrimaryColor}, Dark={StaticResource PrimaryColor}}" />
+        </FlyoutItem.Icon>
+        <ShellContent ContentTemplate="{DataTemplate local:ProgressPage}" />
+    </FlyoutItem>
+
+    <!-- Grids -->
+    <FlyoutItem Title="Grids" Route="Grids">
+        <FlyoutItem.Icon>
+            <FontImageSource Glyph="&#x1F4CA;"
+                             FontFamily="Default"
+                             Color="{AppThemeBinding Light={StaticResource PrimaryColor}, Dark={StaticResource PrimaryColor}}" />
+        </FlyoutItem.Icon>
+        <ShellContent ContentTemplate="{DataTemplate local:GridsPage}" />
+    </FlyoutItem>
+
+    <!-- About -->
+    <FlyoutItem Title="About" Route="About">
+        <FlyoutItem.Icon>
+            <FontImageSource Glyph="&#x2139;"
+                             FontFamily="Default"
+                             Color="{AppThemeBinding Light={StaticResource PrimaryColor}, Dark={StaticResource PrimaryColor}}" />
+        </FlyoutItem.Icon>
+        <ShellContent ContentTemplate="{DataTemplate local:AboutPage}" />
+    </FlyoutItem>
+
+</Shell>

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WebViewDemo.WebViewPage"
+             Title="WebView Demo"
+             BackgroundColor="#F5F7FA">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Color x:Key="PrimaryColor">#5C6BC0</Color>
+            <Color x:Key="PrimaryDark">#3949AB</Color>
+            <Color x:Key="AccentColor">#26A69A</Color>
+            <Color x:Key="ButtonColor">#667EEA</Color>
+            <Color x:Key="TextPrimary">#212121</Color>
+            <Color x:Key="TextSecondary">#757575</Color>
+            <Color x:Key="CardBackground">#FFFFFF</Color>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,Auto,Auto,*,Auto,Auto" Padding="16" RowSpacing="12">
+
+        <!-- Header -->
+        <Label Grid.Row="0"
+               Text="WebView Demo - WebKitGTK"
+               FontSize="22"
+               FontAttributes="Bold"
+               TextColor="{StaticResource PrimaryColor}"
+               HorizontalOptions="Center" />
+
+        <!-- Navigation Bar -->
+        <Border Grid.Row="1"
+                BackgroundColor="{StaticResource CardBackground}"
+                StrokeThickness="0"
+                Padding="12">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="8" />
+            </Border.StrokeShape>
+
+            <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
+                <Button x:Name="BackButton"
+                        Text="Back"
+                        WidthRequest="70"
+                        HeightRequest="36"
+                        FontSize="13"
+                        BackgroundColor="{StaticResource ButtonColor}"
+                        TextColor="White"
+                        Clicked="OnBackClicked" />
+                <Button x:Name="ForwardButton"
+                        Text="Forward"
+                        WidthRequest="80"
+                        HeightRequest="36"
+                        FontSize="13"
+                        BackgroundColor="{StaticResource ButtonColor}"
+                        TextColor="White"
+                        Clicked="OnForwardClicked" />
+                <Button x:Name="ReloadButton"
+                        Text="Reload"
+                        WidthRequest="70"
+                        HeightRequest="36"
+                        FontSize="13"
+                        BackgroundColor="{StaticResource ButtonColor}"
+                        TextColor="White"
+                        Clicked="OnReloadClicked" />
+            </HorizontalStackLayout>
+        </Border>
+
+        <!-- URL Bar -->
+        <Border Grid.Row="2"
+                BackgroundColor="{StaticResource CardBackground}"
+                StrokeThickness="0"
+                Padding="12">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="8" />
+            </Border.StrokeShape>
+
+            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                <Entry x:Name="UrlEntry"
+                       Grid.Column="0"
+                       Placeholder="Enter URL..."
+                       Text="https://dotnet.microsoft.com"
+                       FontSize="14"
+                       VerticalOptions="Center"
+                       Completed="OnUrlSubmitted" />
+                <Button x:Name="GoButton"
+                        Grid.Column="1"
+                        Text="Go"
+                        WidthRequest="60"
+                        HeightRequest="36"
+                        FontSize="13"
+                        BackgroundColor="{StaticResource AccentColor}"
+                        TextColor="White"
+                        Clicked="OnGoClicked" />
+            </Grid>
+        </Border>
+
+        <!-- WebView -->
+        <Border Grid.Row="3"
+                BackgroundColor="{StaticResource CardBackground}"
+                StrokeThickness="1"
+                Stroke="#E0E0E0">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="8" />
+            </Border.StrokeShape>
+
+            <WebView x:Name="MainWebView"
+                     VerticalOptions="Fill"
+                     HorizontalOptions="Fill"
+                     Navigating="OnNavigating"
+                     Navigated="OnNavigated" />
+        </Border>
+
+        <!-- Action Buttons -->
+        <Border Grid.Row="4"
+                BackgroundColor="{StaticResource CardBackground}"
+                StrokeThickness="0"
+                Padding="12">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="8" />
+            </Border.StrokeShape>
+
+            <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
+                <Button x:Name="LoadHtmlButton"
+                        Text="Load HTML"
+                        WidthRequest="110"
+                        HeightRequest="36"
+                        FontSize="13"
+                        BackgroundColor="{StaticResource PrimaryColor}"
+                        TextColor="White"
+                        Clicked="OnLoadHtmlClicked" />
+                <Button x:Name="EvalJsButton"
+                        Text="Run JS"
+                        WidthRequest="90"
+                        HeightRequest="36"
+                        FontSize="13"
+                        BackgroundColor="{StaticResource PrimaryColor}"
+                        TextColor="White"
+                        Clicked="OnEvalJsClicked" />
+            </HorizontalStackLayout>
+        </Border>
+
+        <!-- Status Bar -->
+        <Border Grid.Row="5"
+                BackgroundColor="{StaticResource PrimaryDark}"
+                StrokeThickness="0"
+                Padding="12,8">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="6" />
+            </Border.StrokeShape>
+
+            <Label x:Name="StatusLabel"
+                   Text="Ready"
+                   FontSize="13"
+                   TextColor="White"
+                   HorizontalOptions="Center" />
+        </Border>
+
+    </Grid>
+</ContentPage>

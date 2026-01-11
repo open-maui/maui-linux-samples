@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ShellDemo.ButtonsPage"
+             Title="Buttons Demo"
+             BackgroundColor="{AppThemeBinding Light={StaticResource PageBackgroundLight}, Dark={StaticResource PageBackgroundDark}}">
+
+    <Grid RowDefinitions="*,120">
+
+        <!-- Main Content -->
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Padding="20" Spacing="20">
+
+                <Label Text="Button Styles &amp; Events"
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+
+                <!-- Basic Buttons Section -->
+                <Border Style="{StaticResource ThemedCard}">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Basic Buttons"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+
+                        <Button x:Name="DefaultButton"
+                                Text="Default Button"
+                                Clicked="OnDefaultButtonClicked" />
+
+                        <Button x:Name="TextButton"
+                                Text="Text Only"
+                                BackgroundColor="Transparent"
+                                TextColor="{StaticResource PrimaryColor}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Styled Buttons Section -->
+                <Border Style="{StaticResource ThemedCard}">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Styled Buttons"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+
+                        <HorizontalStackLayout Spacing="10">
+                            <Button Text="Primary"
+                                    Style="{StaticResource PrimaryButton}"
+                                    Clicked="OnStyledButtonClicked" />
+                            <Button Text="Success"
+                                    Style="{StaticResource SuccessButton}"
+                                    Clicked="OnStyledButtonClicked" />
+                            <Button Text="Warning"
+                                    BackgroundColor="{StaticResource WarningColor}"
+                                    TextColor="White"
+                                    CornerRadius="5"
+                                    Clicked="OnStyledButtonClicked" />
+                            <Button Text="Danger"
+                                    Style="{StaticResource DangerButton}"
+                                    Clicked="OnStyledButtonClicked" />
+                            <Button Text="Purple"
+                                    BackgroundColor="{StaticResource PurpleColor}"
+                                    TextColor="White"
+                                    CornerRadius="5"
+                                    Clicked="OnStyledButtonClicked" />
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Button States Section -->
+                <Border Style="{StaticResource ThemedCard}">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Button States"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+
+                        <Button x:Name="EnabledButton"
+                                Text="Enabled Button"
+                                IsEnabled="True"
+                                Clicked="OnEnabledButtonClicked" />
+
+                        <Button x:Name="DisabledButton"
+                                Text="Disabled Button"
+                                IsEnabled="False" />
+
+                        <Button x:Name="ToggleButton"
+                                Text="Toggle Above Button"
+                                Style="{StaticResource SecondaryButton}"
+                                Clicked="OnToggleButtonClicked" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Button Variations Section -->
+                <Border Style="{StaticResource ThemedCard}">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Button Variations"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+
+                        <Button Text="Wide Button"
+                                HorizontalOptions="Fill"
+                                BackgroundColor="#673AB7"
+                                TextColor="White"
+                                Clicked="OnVariationButtonClicked" />
+
+                        <Button Text="Tall Button"
+                                HeightRequest="60"
+                                BackgroundColor="#009688"
+                                TextColor="White"
+                                Clicked="OnVariationButtonClicked" />
+
+                        <HorizontalStackLayout>
+                            <Button Text="Round"
+                                    WidthRequest="80"
+                                    HeightRequest="80"
+                                    CornerRadius="40"
+                                    BackgroundColor="#E91E63"
+                                    TextColor="White"
+                                    Clicked="OnVariationButtonClicked" />
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Event Log Panel -->
+        <Border Grid.Row="1"
+                BackgroundColor="{AppThemeBinding Light=#F5F5F5, Dark=#2C2C2C}"
+                StrokeThickness="0"
+                Padding="10">
+            <VerticalStackLayout>
+                <Label Text="Event Log:"
+                       FontSize="12"
+                       FontAttributes="Bold"
+                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                <ScrollView HeightRequest="80">
+                    <Label x:Name="EventLogLabel"
+                           Text="Events will appear here..."
+                           FontSize="11"
+                           TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                           LineBreakMode="WordWrap" />
+                </ScrollView>
+            </VerticalStackLayout>
+        </Border>
+
+    </Grid>
+</ContentPage>

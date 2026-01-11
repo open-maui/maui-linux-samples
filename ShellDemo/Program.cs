@@ -2,14 +2,14 @@
 
 using Microsoft.Maui.Platform.Linux;
 
-namespace WebViewDemo;
+namespace ShellDemo;
 
 class Program
 {
     static void Main(string[] args)
     {
         // Redirect console output to a log file for debugging
-        var logPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "webviewdemo.log");
+        var logPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "shelldemo.log");
         using var logWriter = new StreamWriter(logPath, append: false) { AutoFlush = true };
         var multiWriter = new MultiTextWriter(Console.Out, logWriter);
         Console.SetOut(multiWriter);
@@ -35,7 +35,7 @@ class Program
             e.SetObserved(); // Prevent crash
         };
 
-        Console.WriteLine($"[Program] Starting WebView Demo at {DateTime.Now}");
+        Console.WriteLine($"[Program] Starting Shell Demo at {DateTime.Now}");
         Console.WriteLine($"[Program] Log file: {logPath}");
 
         try

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ShellDemo.ListsPage"
+             Title="Lists"
+             BackgroundColor="{AppThemeBinding Light={StaticResource PageBackgroundLight}, Dark={StaticResource PageBackgroundDark}}">
+
+    <Grid RowDefinitions="*,120">
+
+        <!-- Main Content -->
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Padding="20" Spacing="20">
+
+                <Label Text="List Controls"
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+
+                <!-- Fruits CollectionView -->
+                <Border Style="{StaticResource ThemedCard}">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="CollectionView - Fruits"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+
+                        <CollectionView x:Name="FruitsCollectionView"
+                                        HeightRequest="200"
+                                        SelectionMode="Single"
+                                        BackgroundColor="{AppThemeBinding Light=#FAFAFA, Dark=#2C2C2C}"
+                                        SelectionChanged="OnFruitsSelectionChanged">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Label Text="{Binding}"
+                                           Padding="10"
+                                           TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                        <Label x:Name="FruitsSelectedLabel"
+                               Text="Tap a fruit to select"
+                               TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Colors CollectionView -->
+                <Border Style="{StaticResource ThemedCard}">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="CollectionView - Colors"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+
+                        <CollectionView x:Name="ColorsCollectionView"
+                                        HeightRequest="180"
+                                        SelectionMode="Single"
+                                        BackgroundColor="{AppThemeBinding Light=White, Dark=#1E1E1E}"
+                                        SelectionChanged="OnColorsSelectionChanged">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Label Text="{Binding}"
+                                           Padding="10"
+                                           TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                        <Label Text="Scroll to see all colors"
+                               FontSize="11"
+                               TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Contacts CollectionView -->
+                <Border Style="{StaticResource ThemedCard}">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="CollectionView - Contacts"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+
+                        <CollectionView x:Name="ContactsCollectionView"
+                                        HeightRequest="200"
+                                        SelectionMode="Single"
+                                        BackgroundColor="{AppThemeBinding Light=White, Dark=#1E1E1E}"
+                                        SelectionChanged="OnContactsSelectionChanged">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Label Text="{Binding}"
+                                           Padding="10"
+                                           TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                        <!-- Action buttons -->
+                        <HorizontalStackLayout Spacing="10">
+                            <Button Text="Add Contact"
+                                    Style="{StaticResource SuccessButton}"
+                                    Clicked="OnAddContactClicked" />
+                            <Button Text="Delete Selected"
+                                    Style="{StaticResource DangerButton}"
+                                    Clicked="OnDeleteContactClicked" />
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Event Log Panel -->
+        <Border Grid.Row="1"
+                BackgroundColor="{AppThemeBinding Light=#F5F5F5, Dark=#2C2C2C}"
+                StrokeThickness="0"
+                Padding="10">
+            <VerticalStackLayout>
+                <Label Text="Event Log:"
+                       FontSize="12"
+                       FontAttributes="Bold"
+                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                <ScrollView HeightRequest="80">
+                    <Label x:Name="EventLogLabel"
+                           Text="Events will appear here..."
+                           FontSize="11"
+                           TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                           LineBreakMode="WordWrap" />
+                </ScrollView>
+            </VerticalStackLayout>
+        </Border>
+
+    </Grid>
+</ContentPage>

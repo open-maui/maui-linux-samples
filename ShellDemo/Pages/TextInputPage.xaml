@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ShellDemo.TextInputPage"
+             Title="Text Input"
+             BackgroundColor="{AppThemeBinding Light={StaticResource PageBackgroundLight}, Dark={StaticResource PageBackgroundDark}}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <Label Text="Text Input Controls"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+
+            <Label Text="Click on any field and start typing. All keyboard input is handled by the framework."
+                   FontSize="14"
+                   TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+
+            <!-- Entry Section -->
+            <BoxView Style="{StaticResource ThemedDivider}" />
+
+            <Label Text="Entry (Single Line)"
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+
+            <Entry x:Name="NameEntry"
+                   Placeholder="Enter your name..."
+                   Style="{StaticResource ThemedEntry}"
+                   TextChanged="OnNameEntryTextChanged" />
+
+            <Label x:Name="EntryOutputLabel"
+                   FontSize="12"
+                   TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+
+            <Entry x:Name="EmailEntry"
+                   Placeholder="Enter your email..."
+                   Keyboard="Email"
+                   Style="{StaticResource ThemedEntry}" />
+
+            <Label Text="Email keyboard type"
+                   FontSize="12"
+                   TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+
+            <Entry x:Name="PasswordEntry"
+                   Placeholder="Enter password..."
+                   IsPassword="True"
+                   Style="{StaticResource ThemedEntry}" />
+
+            <Label Text="Password field (text hidden)"
+                   FontSize="12"
+                   TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+
+            <!-- SearchBar Section -->
+            <BoxView Style="{StaticResource ThemedDivider}" />
+
+            <Label Text="SearchBar"
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+
+            <SearchBar x:Name="MainSearchBar"
+                       Placeholder="Search for items..."
+                       TextChanged="OnSearchBarTextChanged"
+                       SearchButtonPressed="OnSearchButtonPressed" />
+
+            <Label x:Name="SearchOutputLabel"
+                   FontSize="12"
+                   TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+
+            <!-- Editor Section -->
+            <BoxView Style="{StaticResource ThemedDivider}" />
+
+            <Label Text="Editor (Multi-line)"
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+
+            <Editor x:Name="MainEditor"
+                    Placeholder="Enter multiple lines of text here...&#10;Press Enter to create new lines."
+                    HeightRequest="120"
+                    Style="{StaticResource ThemedEditor}"
+                    TextChanged="OnEditorTextChanged" />
+
+            <Label x:Name="EditorOutputLabel"
+                   FontSize="12"
+                   TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+
+            <!-- Keyboard Shortcuts -->
+            <BoxView Style="{StaticResource ThemedDivider}" />
+
+            <Border BackgroundColor="{AppThemeBinding Light=#E3F2FD, Dark=#1A3A5C}"
+                    StrokeThickness="0"
+                    Padding="15">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="8" />
+                </Border.StrokeShape>
+
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Keyboard Shortcuts"
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                    <Label Text="Ctrl+A: Select all"
+                           TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                    <Label Text="Ctrl+C: Copy"
+                           TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                    <Label Text="Ctrl+V: Paste"
+                           TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                    <Label Text="Ctrl+X: Cut"
+                           TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                    <Label Text="Home/End: Move to start/end"
+                           TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                    <Label Text="Shift+Arrow: Select text"
+                           TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -5,14 +5,11 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <RootNamespace>WebViewDemo</RootNamespace>
-    <RuntimeIdentifier>linux-arm64</RuntimeIdentifier>
-    <SelfContained>true</SelfContained>
-    <PublishSingleFile>false</PublishSingleFile>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../OpenMaui.Controls.Linux.csproj" />
+    <ProjectReference Include="../../maui-linux/OpenMaui.Controls.Linux.csproj" />
   </ItemGroup>
 
 </Project>

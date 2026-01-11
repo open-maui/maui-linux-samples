@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ShellDemo.HomePage"
+             Title="Home"
+             BackgroundColor="{AppThemeBinding Light={StaticResource PageBackgroundLight}, Dark={StaticResource PageBackgroundDark}}">
+
+    <ScrollView Orientation="Both">
+        <VerticalStackLayout Padding="30" Spacing="20">
+
+            <!-- Header -->
+            <Label Text="OpenMaui Linux"
+                   FontSize="32"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   TextColor="{StaticResource PrimaryColor}" />
+
+            <Label Text="Controls Demo"
+                   FontSize="20"
+                   HorizontalOptions="Center"
+                   TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+
+            <BoxView Style="{StaticResource ThemedDivider}" Margin="0,10" />
+
+            <Label Text="Welcome to the comprehensive controls demonstration for OpenMaui Linux. This app showcases all the major UI controls available in the framework."
+                   FontSize="14"
+                   LineBreakMode="WordWrap"
+                   HorizontalTextAlignment="Center"
+                   TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+
+            <!-- Feature Grid -->
+            <Grid x:Name="FeatureGrid"
+                  ColumnDefinitions="*,*"
+                  RowDefinitions="Auto,Auto,Auto"
+                  ColumnSpacing="15"
+                  RowSpacing="15"
+                  Margin="0,20" />
+
+            <Label Text="Use the flyout menu (swipe from left or tap the hamburger icon) to navigate between different control demos."
+                   FontSize="12"
+                   TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                   LineBreakMode="WordWrap"
+                   HorizontalTextAlignment="Center"
+                   Margin="0,20,0,0" />
+
+            <!-- Quick Actions Section -->
+            <VerticalStackLayout Spacing="10" Margin="0,20,0,0">
+                <Label Text="Quick Actions"
+                       FontSize="16"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"
+                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+
+                <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                    <Button x:Name="TryButtonsBtn"
+                            Text="Try Buttons"
+                            Style="{StaticResource PrimaryButton}"
+                            Clicked="OnTryButtonsClicked" />
+                    <Button x:Name="TryListsBtn"
+                            Text="Try Lists"
+                            Style="{StaticResource SuccessButton}"
+                            Clicked="OnTryListsClicked" />
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+
+            <!-- Navigation Demo Section -->
+            <Border BackgroundColor="{AppThemeBinding Light=#F3E5F5, Dark=#2D1F3D}"
+                    StrokeThickness="0"
+                    Padding="20"
+                    Margin="0,20,0,0">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="8" />
+                </Border.StrokeShape>
+
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Navigation Stack Demo"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource PurpleColor}"
+                           HorizontalOptions="Center" />
+
+                    <Label Text="Demonstrate push/pop navigation using Shell.GoToAsync()"
+                           FontSize="12"
+                           TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                           HorizontalTextAlignment="Center" />
+
+                    <Button x:Name="PushDetailBtn"
+                            Text="Push Detail Page"
+                            BackgroundColor="{StaticResource PurpleColor}"
+                            TextColor="White"
+                            HorizontalOptions="Center"
+                            Padding="30,10"
+                            Clicked="OnPushDetailClicked" />
+
+                    <Label Text="Click the button to push a new page onto the navigation stack. Use the back button or 'Go Back' to pop it off."
+                           FontSize="11"
+                           TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                           HorizontalTextAlignment="Center"
+                           LineBreakMode="WordWrap" />
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

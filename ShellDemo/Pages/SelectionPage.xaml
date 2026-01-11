@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ShellDemo.SelectionPage"
+             Title="Selection Controls"
+             BackgroundColor="{AppThemeBinding Light={StaticResource PageBackgroundLight}, Dark={StaticResource PageBackgroundDark}}">
+
+    <Grid RowDefinitions="*,120">
+
+        <!-- Main Content -->
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Padding="20" Spacing="20">
+
+                <Label Text="Selection Controls"
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+
+                <!-- CheckBox Section -->
+                <Border Style="{StaticResource ThemedCard}">
+                    <VerticalStackLayout Spacing="15">
+                        <Label Text="CheckBox"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+
+                        <!-- Basic checkboxes -->
+                        <HorizontalStackLayout Spacing="20">
+                            <CheckBox x:Name="Checkbox1" IsChecked="False" CheckedChanged="OnCheckboxChanged" />
+                            <Label Text="Option 1" VerticalOptions="Center"
+                                   TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                            <CheckBox x:Name="Checkbox2" IsChecked="True" CheckedChanged="OnCheckboxChanged" />
+                            <Label Text="Option 2 (default checked)" VerticalOptions="Center"
+                                   TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                        </HorizontalStackLayout>
+
+                        <!-- Colored checkboxes -->
+                        <Label Text="Colored Checkboxes:"
+                               FontSize="12"
+                               TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+                        <HorizontalStackLayout Spacing="20">
+                            <CheckBox Color="Red" IsChecked="True" CheckedChanged="OnColoredCheckboxChanged" />
+                            <CheckBox Color="Green" IsChecked="True" CheckedChanged="OnColoredCheckboxChanged" />
+                            <CheckBox Color="Blue" IsChecked="True" CheckedChanged="OnColoredCheckboxChanged" />
+                            <CheckBox Color="Purple" IsChecked="True" CheckedChanged="OnColoredCheckboxChanged" />
+                        </HorizontalStackLayout>
+
+                        <!-- Disabled checkbox -->
+                        <HorizontalStackLayout Spacing="10">
+                            <CheckBox IsChecked="True" IsEnabled="False" />
+                            <Label Text="Disabled (checked)" VerticalOptions="Center"
+                                   TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Switch Section -->
+                <Border Style="{StaticResource ThemedCard}">
+                    <VerticalStackLayout Spacing="15">
+                        <Label Text="Switch"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+
+                        <!-- Basic switch -->
+                        <HorizontalStackLayout Spacing="15">
+                            <Switch x:Name="BasicSwitch" IsToggled="False" Toggled="OnSwitchToggled" />
+                            <Label x:Name="SwitchStatusLabel" Text="Off" VerticalOptions="Center" WidthRequest="50"
+                                   TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                        </HorizontalStackLayout>
+
+                        <!-- Colored switches -->
+                        <Label Text="Colored Switches:"
+                               FontSize="12"
+                               TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+                        <HorizontalStackLayout Spacing="20">
+                            <Switch IsToggled="True" OnColor="Green" Toggled="OnColoredSwitchToggled" />
+                            <Switch IsToggled="True" OnColor="Orange" Toggled="OnColoredSwitchToggled" />
+                            <Switch IsToggled="True" OnColor="Purple" Toggled="OnColoredSwitchToggled" />
+                        </HorizontalStackLayout>
+
+                        <!-- Disabled switch -->
+                        <HorizontalStackLayout Spacing="10">
+                            <Switch IsToggled="True" IsEnabled="False" />
+                            <Label Text="Disabled (on)" VerticalOptions="Center"
+                                   TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Slider Section -->
+                <Border Style="{StaticResource ThemedCard}">
+                    <VerticalStackLayout Spacing="15">
+                        <Label Text="Slider"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+
+                        <!-- Basic slider -->
+                        <Slider x:Name="BasicSlider" Minimum="0" Maximum="100" Value="50" ValueChanged="OnSliderValueChanged" />
+                        <Label x:Name="SliderValueLabel" Text="Value: 50"
+                               TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+
+                        <!-- Temperature slider -->
+                        <Label Text="Temperature (0-40°C):"
+                               FontSize="12"
+                               Margin="0,10,0,0"
+                               TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+                        <Slider x:Name="TempSlider" Minimum="0" Maximum="40" Value="20" ValueChanged="OnTempSliderValueChanged" />
+                        <Label x:Name="TempLabel" Text="20°C"
+                               TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+
+                        <!-- Colored slider -->
+                        <Label Text="Colored Slider:"
+                               FontSize="12"
+                               Margin="0,10,0,0"
+                               TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+                        <Slider Minimum="0" Maximum="100" Value="75"
+                                MinimumTrackColor="Green"
+                                MaximumTrackColor="LightGray"
+                                ThumbColor="DarkGreen"
+                                ValueChanged="OnColoredSliderValueChanged" />
+
+                        <!-- Disabled slider -->
+                        <Label Text="Disabled Slider:"
+                               FontSize="12"
+                               Margin="0,10,0,0"
+                               TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+                        <Slider Minimum="0" Maximum="100" Value="30" IsEnabled="False" />
+                    </VerticalStackLayout>
+                </Border>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Event Log Panel -->
+        <Border Grid.Row="1"
+                BackgroundColor="{AppThemeBinding Light=#F5F5F5, Dark=#2C2C2C}"
+                StrokeThickness="0"
+                Padding="10">
+            <VerticalStackLayout>
+                <Label Text="Event Log:"
+                       FontSize="12"
+                       FontAttributes="Bold"
+                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                <ScrollView HeightRequest="80">
+                    <Label x:Name="EventLogLabel"
+                           Text="Events will appear here..."
+                           FontSize="11"
+                           TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                           LineBreakMode="WordWrap" />
+                </ScrollView>
+            </VerticalStackLayout>
+        </Border>
+
+    </Grid>
+</ContentPage>
