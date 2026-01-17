@@ -38,9 +38,12 @@
     <MauiXaml Update="**/*.xaml" />
   </ItemGroup>
 
-  <!-- Embedded Resources (icons) -->
+  <!-- Images -->
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Images\*.svg" />
+    <MauiImage Include="Resources\Images\*.svg" />
   </ItemGroup>
+
+  <!-- Import OpenMaui targets for Linux builds -->
+  <Import Project="../../maui-linux/build/OpenMaui.Controls.Linux.targets" Condition="$([MSBuild]::IsOSPlatform('Linux'))" />
 
 </Project>

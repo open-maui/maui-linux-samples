@@ -78,4 +78,15 @@ public class TodoItem : INotifyPropertyChanged
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
+
+    /// <summary>
+    /// Forces all bindings to re-evaluate by notifying all properties changed.
+    /// Used when external factors (like app theme) change.
+    /// </summary>
+    public void RefreshBindings()
+    {
+        OnPropertyChanged(nameof(IsCompleted));
+        OnPropertyChanged(nameof(Title));
+        OnPropertyChanged(nameof(Notes));
+    }
 }

@@ -9,6 +9,7 @@ namespace TodoApp;
 public partial class TodoListPage : ContentPage
 {
     private readonly TodoService _service = TodoService.Instance;
+    private bool _isNavigating; // Guard against double navigation
 
     public TodoListPage()
     {
@@ -18,13 +19,24 @@ public partial class TodoListPage : ContentPage
         TodoCollectionView.ItemsSource = _service.Todos;
         UpdateStats();
 
+        // Subscribe to theme changes to verify event is firing
+        if (Application.Current != null)
+        {
+            Application.Current.RequestedThemeChanged += (s, e) =>
+            {
+                Console.WriteLine($"[TodoListPage] RequestedThemeChanged event received! NewTheme={e.RequestedTheme}");
+            };
+        }
+
         Console.WriteLine("[TodoListPage] Constructor finished");
     }
 
     protected override void OnAppearing()
     {
-        Console.WriteLine("[TodoListPage] OnAppearing called - refreshing CollectionView");
         base.OnAppearing();
+
+        // Reset navigation guard when page reappears
+        _isNavigating = false;
 
         // Refresh indexes for alternating row colors
         _service.RefreshIndexes();
@@ -32,8 +44,8 @@ public partial class TodoListPage : ContentPage
         // Refresh the collection view
         TodoCollectionView.ItemsSource = null;
         TodoCollectionView.ItemsSource = _service.Todos;
-        Console.WriteLine($"[TodoListPage] ItemsSource set with {_service.Todos.Count} items");
         UpdateStats();
+        UpdateThemeIcon();
     }
 
     private async void OnAddClicked(object sender, EventArgs e)
@@ -43,23 +55,18 @@ public partial class TodoListPage : ContentPage
 
     private async void OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
     {
-        try
+        // Guard against double navigation
+        if (_isNavigating)
         {
-            Console.WriteLine($"[TodoListPage] OnSelectionChanged: {e.CurrentSelection.Count} items selected");
-            if (e.CurrentSelection.FirstOrDefault() is TodoItem todo)
-            {
-                Console.WriteLine($"[TodoListPage] Navigating to TodoDetailPage for: {todo.Title}");
-                TodoCollectionView.SelectedItem = null; // Deselect
-                var detailPage = new TodoDetailPage(todo);
-                Console.WriteLine($"[TodoListPage] Created TodoDetailPage, pushing...");
-                await Navigation.PushAsync(detailPage);
-                Console.WriteLine($"[TodoListPage] Navigation complete");
-            }
+            return;
         }
-        catch (Exception ex)
+
+        if (e.CurrentSelection.FirstOrDefault() is TodoItem todo)
         {
-            Console.WriteLine($"[TodoListPage] EXCEPTION in OnSelectionChanged: {ex.GetType().Name}: {ex.Message}");
-            Console.WriteLine($"[TodoListPage] Stack trace: {ex.StackTrace}");
+            _isNavigating = true;
+            TodoCollectionView.SelectedItem = null; // Deselect immediately
+            await Navigation.PushAsync(new TodoDetailPage(todo));
+            // Note: _isNavigating is reset in OnAppearing when we return
         }
     }
 
@@ -70,12 +77,41 @@ public partial class TodoListPage : ContentPage
 
         if (total == 0)
         {
-            StatsLabel.Text = "";
+            StatsLabel.Text = "No tasks";
         }
         else
         {
-            StatsLabel.Text = $"{completed} of {total} completed";
+            StatsLabel.Text = $"Tasks: {completed} of {total} completed";
         }
+    }
+
+    private void UpdateThemeIcon()
+    {
+        // Check UserAppTheme first, fall back to RequestedTheme
+        var userTheme = Application.Current?.UserAppTheme ?? AppTheme.Unspecified;
+        var effectiveTheme = userTheme != AppTheme.Unspecified ? userTheme : Application.Current?.RequestedTheme ?? AppTheme.Light;
+        var isDarkMode = effectiveTheme == AppTheme.Dark;
+
+        // Show sun icon in dark mode (to switch to light), moon icon in light mode (to switch to dark)
+        ThemeToggleButton.Source = isDarkMode ? "light_mode_white.svg" : "dark_mode_white.svg";
+        Console.WriteLine($"[TodoListPage] UpdateThemeIcon: UserAppTheme={userTheme}, RequestedTheme={Application.Current?.RequestedTheme}, isDarkMode={isDarkMode}");
+    }
+
+    private void OnThemeToggleClicked(object? sender, EventArgs e)
+    {
+        if (Application.Current == null) return;
+
+        // Check current effective theme
+        var userTheme = Application.Current.UserAppTheme;
+        var effectiveTheme = userTheme != AppTheme.Unspecified ? userTheme : Application.Current.RequestedTheme;
+        var isDarkMode = effectiveTheme == AppTheme.Dark;
+
+        // Toggle to the opposite theme
+        var newTheme = isDarkMode ? AppTheme.Light : AppTheme.Dark;
+        Application.Current.UserAppTheme = newTheme;
+
+        Console.WriteLine($"[TodoListPage] Theme toggled from {effectiveTheme} to {newTheme}");
+        UpdateThemeIcon();
     }
 }
 
@@ -111,7 +147,8 @@ public class AlternatingRowColorConverter : IValueConverter
 public class CompletedToColorConverter : IValueConverter
 {
     // Light theme colors
-    private static readonly Color AccentColor = Color.FromArgb("#26A69A");
+    private static readonly Color AccentColorLight = Color.FromArgb("#26A69A");
+    private static readonly Color AccentColorDark = Color.FromArgb("#4DB6AC");
     private static readonly Color CompletedColor = Color.FromArgb("#9E9E9E");
     private static readonly Color TextPrimaryLight = Color.FromArgb("#212121");
     private static readonly Color TextSecondaryLight = Color.FromArgb("#757575");
@@ -126,10 +163,12 @@ public class CompletedToColorConverter : IValueConverter
         string param = parameter as string ?? "";
         bool isDarkMode = Application.Current?.RequestedTheme == AppTheme.Dark;
 
-        // Indicator bar color
+        // Indicator bar color - theme-aware accent color
         if (param == "indicator")
         {
-            return isCompleted ? CompletedColor : AccentColor;
+            var color = isCompleted ? CompletedColor : (isDarkMode ? AccentColorDark : AccentColorLight);
+            Console.WriteLine($"[CompletedToColorConverter] indicator: isCompleted={isCompleted}, isDarkMode={isDarkMode}, color={color}");
+            return color;
         }
 
         // Text colors with theme support
@@ -186,3 +225,4 @@ public class CompletedToOpacityConverter : IValueConverter
         throw new NotImplementedException();
     }
 }
+

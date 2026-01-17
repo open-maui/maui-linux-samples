@@ -54,7 +54,7 @@
                     <!-- Card-style item -->
                     <Grid Padding="0,6" BackgroundColor="Transparent">
                         <Border StrokeThickness="0"
-                                BackgroundColor="{AppThemeBinding Light={StaticResource CardBackgroundLight}, Dark={StaticResource CardBackgroundDark}}"
+                                BackgroundColor="{AppThemeBinding Light=#FFFFFF, Dark=#1E1E1E}"
                                 Padding="16,14"
                                 Opacity="{Binding IsCompleted, Converter={StaticResource CompletedToOpacityConverter}}">
                             <Border.StrokeShape>
@@ -67,7 +67,7 @@
                                         WidthRequest="8"
                                         HeightRequest="44"
                                         Margin="0"
-                                        BackgroundColor="{Binding IsCompleted, Converter={StaticResource CompletedToColorConverter}, ConverterParameter=indicator}"
+                                        BackgroundColor="#26A69A"
                                         VerticalOptions="Center">
                                     <Border.StrokeShape>
                                         <RoundRectangle CornerRadius="4" />
@@ -98,22 +98,30 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <!-- Footer Stats -->
+        <!-- Footer Stats with Theme Toggle -->
         <Border Grid.Row="1"
                 BackgroundColor="{StaticResource PrimaryColor}"
                 StrokeThickness="0"
-                Padding="24,14"
+                Padding="20,10"
                 Margin="0">
-            <Grid ColumnDefinitions="Auto,Auto" ColumnSpacing="6" HorizontalOptions="Center" VerticalOptions="Center">
+            <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center">
+                <!-- Stats on the left -->
                 <Label Grid.Column="0"
-                       Text="Tasks:"
-                       FontSize="15"
-                       TextColor="White" />
-                <Label Grid.Column="1"
                        x:Name="StatsLabel"
                        FontSize="15"
                        TextColor="White"
-                       Opacity="0.9" />
+                       VerticalOptions="Center"
+                       LineBreakMode="NoWrap" />
+
+                <!-- Theme Toggle on the right -->
+                <ImageButton Grid.Column="1"
+                             x:Name="ThemeToggleButton"
+                             Source="light_mode_white.svg"
+                             WidthRequest="32"
+                             HeightRequest="32"
+                             BackgroundColor="Transparent"
+                             Clicked="OnThemeToggleClicked"
+                             VerticalOptions="Center" />
             </Grid>
         </Border>
 
