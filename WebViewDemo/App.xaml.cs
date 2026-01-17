@@ -11,9 +11,12 @@ public partial class App : Application
     public App()
     {
         InitializeComponent();
+    }
 
+    protected override Window CreateWindow(IActivationState? activationState)
+    {
         // Determine current theme for navigation bar colors
-        var isDarkMode = Application.Current?.RequestedTheme == AppTheme.Dark;
+        var isDarkMode = Current?.RequestedTheme == AppTheme.Dark;
         var barBackground = isDarkMode ? Color.FromArgb("#3949AB") : Color.FromArgb("#5C6BC0");
 
         NavigationPage = new NavigationPage(new WebViewPage())
@@ -24,12 +27,12 @@ public partial class App : Application
         };
 
         // Update navigation bar when theme changes
-        Application.Current!.RequestedThemeChanged += (s, e) =>
+        Current!.RequestedThemeChanged += (s, e) =>
         {
             var dark = e.RequestedTheme == AppTheme.Dark;
             NavigationPage.BarBackgroundColor = dark ? Color.FromArgb("#3949AB") : Color.FromArgb("#5C6BC0");
         };
 
-        MainPage = NavigationPage;
+        return new Window(NavigationPage);
     }
 }

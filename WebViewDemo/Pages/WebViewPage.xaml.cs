@@ -6,6 +6,8 @@ namespace WebViewDemo;
 
 public partial class WebViewPage : ContentPage
 {
+    private CancellationTokenSource? _progressCts;
+
     public WebViewPage()
     {
         Console.WriteLine("[WebViewPage] Constructor starting");
@@ -70,10 +72,16 @@ public partial class WebViewPage : ContentPage
     {
         StatusLabel.Text = $"Loading: {e.Url}";
         Console.WriteLine($"[WebViewPage] Navigating to: {e.Url}");
+
+        // Start progress animation
+        StartProgressAnimation();
     }
 
     private void OnNavigated(object? sender, WebNavigatedEventArgs e)
     {
+        // Stop progress animation and complete
+        StopProgressAnimation(e.Result == WebNavigationResult.Success);
+
         StatusLabel.Text = e.Result == WebNavigationResult.Success
             ? $"Loaded: {e.Url}"
             : $"Failed: {e.Result}";
@@ -82,9 +90,68 @@ public partial class WebViewPage : ContentPage
         Console.WriteLine($"[WebViewPage] Navigated: {e.Result} - {e.Url}");
     }
 
-    private void OnLoadHtmlClicked(object? sender, EventArgs e)
+    private void StartProgressAnimation()
+    {
+        // Cancel any existing animation
+        _progressCts?.Cancel();
+        _progressCts = new CancellationTokenSource();
+
+        // Show and reset progress bar
+        LoadingProgress.Progress = 0;
+        LoadingProgress.IsVisible = true;
+
+        // Animate progress (simulated since WebView doesn't report actual progress)
+        var token = _progressCts.Token;
+        Dispatcher.Dispatch(async () =>
+        {
+            try
+            {
+                // Quick initial progress
+                await LoadingProgress.ProgressTo(0.3, 200, Easing.CubicOut);
+                if (token.IsCancellationRequested) return;
+
+                // Slower middle progress
+                await LoadingProgress.ProgressTo(0.6, 500, Easing.Linear);
+                if (token.IsCancellationRequested) return;
+
+                // Even slower as we wait
+                await LoadingProgress.ProgressTo(0.85, 1000, Easing.CubicIn);
+            }
+            catch (TaskCanceledException)
+            {
+                // Expected when navigation completes
+            }
+        });
+    }
+
+    private void StopProgressAnimation(bool success)
+    {
+        _progressCts?.Cancel();
+
+        Dispatcher.Dispatch(async () =>
+        {
+            if (success)
+            {
+                // Complete the progress bar
+                await LoadingProgress.ProgressTo(1.0, 150, Easing.CubicOut);
+                await Task.Delay(100);
+            }
+
+            // Hide the progress bar
+            LoadingProgress.IsVisible = false;
+            LoadingProgress.Progress = 0;
+        });
+    }
+
+    private async void OnLoadHtmlClicked(object? sender, EventArgs e)
     {
         Console.WriteLine("[WebViewPage] Load HTML button clicked");
+        StatusLabel.Text = "Loading demo HTML...";
+
+        // Show quick progress for HTML loading
+        LoadingProgress.Progress = 0;
+        LoadingProgress.IsVisible = true;
+        await LoadingProgress.ProgressTo(0.5, 100, Easing.CubicOut);
 
         var html = @"
 <!DOCTYPE html>
@@ -156,7 +223,14 @@ public partial class WebViewPage : ContentPage
 </html>";
 
         MainWebView.Source = new HtmlWebViewSource { Html = html };
-        StatusLabel.Text = "Loaded custom HTML";
+
+        // Complete progress
+        await LoadingProgress.ProgressTo(1.0, 100, Easing.CubicOut);
+        await Task.Delay(100);
+        LoadingProgress.IsVisible = false;
+
+        StatusLabel.Text = "Loaded demo HTML";
+        UrlEntry.Text = "about:demo";
     }
 
     private async void OnEvalJsClicked(object? sender, EventArgs e)

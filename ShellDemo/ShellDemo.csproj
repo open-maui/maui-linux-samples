@@ -6,12 +6,32 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+    <!-- Application Info -->
+    <ApplicationTitle>OpenMaui Shell Demo</ApplicationTitle>
+    <ApplicationId>com.openmaui.shelldemo</ApplicationId>
+    <ApplicationVersion>1.0.0</ApplicationVersion>
+
+    <!-- MAUI Settings -->
+    <UseMaui>true</UseMaui>
+    <SingleProject>true</SingleProject>
+    <EnableDefaultXamlItems>true</EnableDefaultXamlItems>
+
+    <!-- Linux Runtime -->
+    <RuntimeIdentifiers>linux-x64;linux-arm64</RuntimeIdentifiers>
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- OpenMaui Linux Platform (local development reference) -->
     <ProjectReference Include="../../maui-linux/OpenMaui.Controls.Linux.csproj" />
   </ItemGroup>
 
+  <!-- XAML Files -->
+  <ItemGroup>
+    <MauiXaml Update="**/*.xaml" />
+  </ItemGroup>
+
+  <!-- Embedded Resources (icons) -->
   <ItemGroup>
     <EmbeddedResource Include="Resources\Images\*.svg" />
   </ItemGroup>

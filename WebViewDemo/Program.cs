@@ -43,8 +43,11 @@ class Program
             // Create the MAUI app with all handlers registered
             var app = MauiProgram.CreateMauiApp();
 
-            // Run on Linux platform
-            LinuxApplication.Run(app, args);
+            // Run on Linux platform with GTK mode for WebView support
+            LinuxApplication.Run(app, args, options =>
+            {
+                options.UseGtk = true;
+            });
         }
         catch (Exception ex)
         {

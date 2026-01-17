@@ -2,147 +2,136 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WebViewDemo.WebViewPage"
-             Title="WebView Demo"
+             Title="OpenMaui Browser"
              BackgroundColor="{AppThemeBinding Light={StaticResource PageBackgroundLight}, Dark={StaticResource PageBackgroundDark}}">
 
-    <Grid RowDefinitions="Auto,Auto,Auto,*,Auto,Auto" Padding="16" RowSpacing="12">
+    <Grid RowDefinitions="Auto,*,Auto">
 
-        <!-- Header -->
-        <Label Grid.Row="0"
-               Text="WebView Demo - WebKitGTK"
-               FontSize="22"
-               FontAttributes="Bold"
-               TextColor="{StaticResource PrimaryColor}"
-               HorizontalOptions="Center" />
+        <!-- Browser Toolbar -->
+        <Grid Grid.Row="0"
+              ColumnDefinitions="Auto,Auto,Auto,*,Auto,Auto,Auto"
+              ColumnSpacing="4"
+              Padding="8"
+              BackgroundColor="{AppThemeBinding Light={StaticResource CardBackgroundLight}, Dark={StaticResource CardBackgroundDark}}">
 
-        <!-- Navigation Bar -->
-        <Border Grid.Row="1"
-                BackgroundColor="{AppThemeBinding Light={StaticResource CardBackgroundLight}, Dark={StaticResource CardBackgroundDark}}"
-                StrokeThickness="0"
-                Padding="12">
-            <Border.StrokeShape>
-                <RoundRectangle CornerRadius="8" />
-            </Border.StrokeShape>
+            <!-- Back Button -->
+            <ImageButton Grid.Column="0"
+                         x:Name="BackButton"
+                         Source="{AppThemeBinding Light=arrow_back_light.svg, Dark=arrow_back_dark.svg}"
+                         WidthRequest="36"
+                         HeightRequest="36"
+                         Padding="8"
+                         BackgroundColor="Transparent"
+                         Clicked="OnBackClicked"
+                         ToolTipProperties.Text="Go Back" />
 
-            <HorizontalStackLayout Spacing="12" HorizontalOptions="Center">
-                <ImageButton x:Name="BackButton"
-                             Source="{AppThemeBinding Light=arrow_back_light.svg, Dark=arrow_back_dark.svg}"
-                             WidthRequest="44"
-                             HeightRequest="44"
-                             Padding="10"
-                             BackgroundColor="{StaticResource ButtonColor}"
-                             CornerRadius="8"
-                             Clicked="OnBackClicked" />
-                <ImageButton x:Name="ForwardButton"
-                             Source="{AppThemeBinding Light=arrow_forward_light.svg, Dark=arrow_forward_dark.svg}"
-                             WidthRequest="44"
-                             HeightRequest="44"
-                             Padding="10"
-                             BackgroundColor="{StaticResource ButtonColor}"
-                             CornerRadius="8"
-                             Clicked="OnForwardClicked" />
-                <ImageButton x:Name="ReloadButton"
-                             Source="{AppThemeBinding Light=refresh_light.svg, Dark=refresh_dark.svg}"
-                             WidthRequest="44"
-                             HeightRequest="44"
-                             Padding="10"
-                             BackgroundColor="{StaticResource ButtonColor}"
-                             CornerRadius="8"
-                             Clicked="OnReloadClicked" />
-            </HorizontalStackLayout>
-        </Border>
+            <!-- Forward Button -->
+            <ImageButton Grid.Column="1"
+                         x:Name="ForwardButton"
+                         Source="{AppThemeBinding Light=arrow_forward_light.svg, Dark=arrow_forward_dark.svg}"
+                         WidthRequest="36"
+                         HeightRequest="36"
+                         Padding="8"
+                         BackgroundColor="Transparent"
+                         Clicked="OnForwardClicked"
+                         ToolTipProperties.Text="Go Forward" />
 
-        <!-- URL Bar -->
-        <Border Grid.Row="2"
-                BackgroundColor="{AppThemeBinding Light={StaticResource CardBackgroundLight}, Dark={StaticResource CardBackgroundDark}}"
-                StrokeThickness="0"
-                Padding="12">
-            <Border.StrokeShape>
-                <RoundRectangle CornerRadius="8" />
-            </Border.StrokeShape>
+            <!-- Reload Button -->
+            <ImageButton Grid.Column="2"
+                         x:Name="ReloadButton"
+                         Source="{AppThemeBinding Light=refresh_light.svg, Dark=refresh_dark.svg}"
+                         WidthRequest="36"
+                         HeightRequest="36"
+                         Padding="8"
+                         BackgroundColor="Transparent"
+                         Clicked="OnReloadClicked"
+                         ToolTipProperties.Text="Reload Page" />
 
-            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+            <!-- URL Bar -->
+            <Border Grid.Column="3"
+                    BackgroundColor="{AppThemeBinding Light=#F0F0F0, Dark=#2A2A2A}"
+                    StrokeThickness="1"
+                    Stroke="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"
+                    Padding="8,4"
+                    Margin="4,0">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="18" />
+                </Border.StrokeShape>
+
                 <Entry x:Name="UrlEntry"
-                       Grid.Column="0"
-                       Placeholder="Enter URL..."
+                       Placeholder="Enter URL or search..."
                        Text="https://dotnet.microsoft.com"
                        FontSize="14"
                        TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}"
                        PlaceholderColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                       BackgroundColor="Transparent"
                        VerticalOptions="Center"
                        Completed="OnUrlSubmitted" />
-                <ImageButton x:Name="GoButton"
-                             Grid.Column="1"
-                             Source="{AppThemeBinding Light=send_light.svg, Dark=send_dark.svg}"
-                             WidthRequest="44"
-                             HeightRequest="44"
-                             Padding="10"
-                             BackgroundColor="{StaticResource AccentColor}"
-                             CornerRadius="8"
-                             Clicked="OnGoClicked" />
-            </Grid>
-        </Border>
+            </Border>
 
-        <!-- WebView -->
-        <Border Grid.Row="3"
-                BackgroundColor="{AppThemeBinding Light={StaticResource CardBackgroundLight}, Dark={StaticResource CardBackgroundDark}}"
-                StrokeThickness="1"
-                Stroke="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}">
-            <Border.StrokeShape>
-                <RoundRectangle CornerRadius="8" />
-            </Border.StrokeShape>
+            <!-- Go Button -->
+            <ImageButton Grid.Column="4"
+                         x:Name="GoButton"
+                         Source="{AppThemeBinding Light=send_light.svg, Dark=send_dark.svg}"
+                         WidthRequest="36"
+                         HeightRequest="36"
+                         Padding="8"
+                         BackgroundColor="{StaticResource AccentColor}"
+                         CornerRadius="18"
+                         Clicked="OnGoClicked"
+                         ToolTipProperties.Text="Navigate" />
 
-            <WebView x:Name="MainWebView"
-                     VerticalOptions="Fill"
-                     HorizontalOptions="Fill"
-                     Navigating="OnNavigating"
-                     Navigated="OnNavigated" />
-        </Border>
+            <!-- Load HTML Demo Button -->
+            <ImageButton Grid.Column="5"
+                         x:Name="LoadHtmlButton"
+                         Source="{AppThemeBinding Light=code_light.svg, Dark=code_dark.svg}"
+                         WidthRequest="36"
+                         HeightRequest="36"
+                         Padding="8"
+                         BackgroundColor="Transparent"
+                         Clicked="OnLoadHtmlClicked"
+                         ToolTipProperties.Text="Load Demo HTML" />
 
-        <!-- Action Buttons -->
-        <Border Grid.Row="4"
-                BackgroundColor="{AppThemeBinding Light={StaticResource CardBackgroundLight}, Dark={StaticResource CardBackgroundDark}}"
-                StrokeThickness="0"
-                Padding="12">
-            <Border.StrokeShape>
-                <RoundRectangle CornerRadius="8" />
-            </Border.StrokeShape>
+            <!-- Eval JS Demo Button -->
+            <ImageButton Grid.Column="6"
+                         x:Name="EvalJsButton"
+                         Source="{AppThemeBinding Light=play_arrow_light.svg, Dark=play_arrow_dark.svg}"
+                         WidthRequest="36"
+                         HeightRequest="36"
+                         Padding="8"
+                         BackgroundColor="Transparent"
+                         Clicked="OnEvalJsClicked"
+                         ToolTipProperties.Text="Run JavaScript" />
+        </Grid>
 
-            <HorizontalStackLayout Spacing="12" HorizontalOptions="Center">
-                <ImageButton x:Name="LoadHtmlButton"
-                             Source="{AppThemeBinding Light=code_light.svg, Dark=code_dark.svg}"
-                             WidthRequest="44"
-                             HeightRequest="44"
-                             Padding="10"
-                             BackgroundColor="{StaticResource PrimaryColor}"
-                             CornerRadius="8"
-                             Clicked="OnLoadHtmlClicked" />
-                <ImageButton x:Name="EvalJsButton"
-                             Source="{AppThemeBinding Light=play_arrow_light.svg, Dark=play_arrow_dark.svg}"
-                             WidthRequest="44"
-                             HeightRequest="44"
-                             Padding="10"
-                             BackgroundColor="{StaticResource PrimaryColor}"
-                             CornerRadius="8"
-                             Clicked="OnEvalJsClicked" />
-            </HorizontalStackLayout>
-        </Border>
+        <!-- Loading Progress Bar -->
+        <ProgressBar Grid.Row="1"
+                     x:Name="LoadingProgress"
+                     VerticalOptions="Start"
+                     HeightRequest="3"
+                     ProgressColor="{StaticResource AccentColor}"
+                     Progress="0"
+                     IsVisible="False"
+                     ZIndex="1" />
+
+        <!-- WebView - Main Content Area -->
+        <WebView Grid.Row="1"
+                 x:Name="MainWebView"
+                 VerticalOptions="Fill"
+                 HorizontalOptions="Fill"
+                 Navigating="OnNavigating"
+                 Navigated="OnNavigated" />
 
         <!-- Status Bar -->
-        <Border Grid.Row="5"
-                BackgroundColor="{StaticResource PrimaryDarkColor}"
-                StrokeThickness="0"
-                Padding="12,8">
-            <Border.StrokeShape>
-                <RoundRectangle CornerRadius="6" />
-            </Border.StrokeShape>
-
+        <Grid Grid.Row="2"
+              Padding="8,4"
+              BackgroundColor="{AppThemeBinding Light=#E8E8E8, Dark=#1A1A1A}">
             <Label x:Name="StatusLabel"
                    Text="Ready"
-                   FontSize="13"
-                   TextColor="White"
-                   HorizontalOptions="Center" />
-        </Border>
+                   FontSize="12"
+                   TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                   VerticalOptions="Center" />
+        </Grid>
 
     </Grid>
 </ContentPage>
