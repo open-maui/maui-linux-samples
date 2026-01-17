@@ -16,6 +16,9 @@ public partial class WebViewPage : ContentPage
         // Set initial URL
         MainWebView.Source = new UrlWebViewSource { Url = "https://dotnet.microsoft.com" };
 
+        // Configure URL entry to select all on double-click (like a browser address bar)
+        EntryExtensions.SetSelectAllOnDoubleClick(UrlEntry, true);
+
         Console.WriteLine("[WebViewPage] Constructor finished");
     }
 

@@ -4,7 +4,7 @@
              x:Class="WebViewDemo.WebViewPage"
              BackgroundColor="{AppThemeBinding Light={StaticResource PageBackgroundLight}, Dark={StaticResource PageBackgroundDark}}">
 
-    <Grid RowDefinitions="Auto,*,Auto">
+    <Grid RowDefinitions="Auto,Auto,*,Auto">
 
         <!-- Browser Toolbar -->
         <Grid Grid.Row="0"
@@ -51,7 +51,7 @@
 
             <!-- URL Bar -->
             <Border Grid.Column="3"
-                    BackgroundColor="{AppThemeBinding Light=#F0F0F0, Dark=#2A2A2A}"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource CardBackgroundLight}, Dark={StaticResource CardBackgroundDark}}"
                     StrokeThickness="1"
                     Stroke="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"
                     Padding="8,4"
@@ -122,18 +122,16 @@
                          ToolTipProperties.Text="Toggle Theme" />
         </Grid>
 
-        <!-- Loading Progress Bar -->
+        <!-- Loading Progress Bar (own row above WebView) -->
         <ProgressBar Grid.Row="1"
                      x:Name="LoadingProgress"
-                     VerticalOptions="Start"
                      HeightRequest="3"
                      ProgressColor="{StaticResource AccentColor}"
                      Progress="0"
-                     IsVisible="False"
-                     ZIndex="1" />
+                     IsVisible="False" />
 
         <!-- WebView - Main Content Area -->
-        <WebView Grid.Row="1"
+        <WebView Grid.Row="2"
                  x:Name="MainWebView"
                  VerticalOptions="Fill"
                  HorizontalOptions="Fill"
@@ -141,7 +139,7 @@
                  Navigated="OnNavigated" />
 
         <!-- Status Bar -->
-        <Grid Grid.Row="2"
+        <Grid Grid.Row="3"
               Padding="8,4"
               BackgroundColor="{AppThemeBinding Light=#E8E8E8, Dark=#1A1A1A}">
             <Label x:Name="StatusLabel"
