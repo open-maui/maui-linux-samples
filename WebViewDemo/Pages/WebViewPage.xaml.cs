@@ -249,4 +249,20 @@ public partial class WebViewPage : ContentPage
             Console.WriteLine($"[WebViewPage] JS Error: {ex.Message}");
         }
     }
+
+    private void OnThemeToggleClicked(object? sender, EventArgs e)
+    {
+        Console.WriteLine("[WebViewPage] Theme toggle clicked");
+        Console.WriteLine($"[WebViewPage] Before: UserAppTheme={Application.Current?.UserAppTheme}, RequestedTheme={Application.Current?.RequestedTheme}");
+
+        App.ToggleTheme();
+
+        Console.WriteLine($"[WebViewPage] After: UserAppTheme={Application.Current?.UserAppTheme}, RequestedTheme={Application.Current?.RequestedTheme}");
+
+        var theme = Application.Current?.UserAppTheme == AppTheme.Dark ? "Dark" : "Light";
+        StatusLabel.Text = $"Theme: {theme}";
+
+        // Debug: Check what the ImageButton Source is now
+        Console.WriteLine($"[WebViewPage] ThemeToggleButton.Source = {ThemeToggleButton.Source}");
+    }
 }

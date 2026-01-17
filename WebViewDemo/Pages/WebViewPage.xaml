@@ -2,14 +2,13 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WebViewDemo.WebViewPage"
-             Title="OpenMaui Browser"
              BackgroundColor="{AppThemeBinding Light={StaticResource PageBackgroundLight}, Dark={StaticResource PageBackgroundDark}}">
 
     <Grid RowDefinitions="Auto,*,Auto">
 
         <!-- Browser Toolbar -->
         <Grid Grid.Row="0"
-              ColumnDefinitions="Auto,Auto,Auto,*,Auto,Auto,Auto"
+              ColumnDefinitions="Auto,Auto,Auto,*,Auto,Auto,Auto,Auto"
               ColumnSpacing="4"
               Padding="8"
               BackgroundColor="{AppThemeBinding Light={StaticResource CardBackgroundLight}, Dark={StaticResource CardBackgroundDark}}">
@@ -22,6 +21,7 @@
                          HeightRequest="36"
                          Padding="8"
                          BackgroundColor="Transparent"
+                         VerticalOptions="Center"
                          Clicked="OnBackClicked"
                          ToolTipProperties.Text="Go Back" />
 
@@ -33,6 +33,7 @@
                          HeightRequest="36"
                          Padding="8"
                          BackgroundColor="Transparent"
+                         VerticalOptions="Center"
                          Clicked="OnForwardClicked"
                          ToolTipProperties.Text="Go Forward" />
 
@@ -44,6 +45,7 @@
                          HeightRequest="36"
                          Padding="8"
                          BackgroundColor="Transparent"
+                         VerticalOptions="Center"
                          Clicked="OnReloadClicked"
                          ToolTipProperties.Text="Reload Page" />
 
@@ -53,7 +55,8 @@
                     StrokeThickness="1"
                     Stroke="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"
                     Padding="8,4"
-                    Margin="4,0">
+                    Margin="4,0"
+                    VerticalOptions="Center">
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="18" />
                 </Border.StrokeShape>
@@ -78,6 +81,7 @@
                          Padding="8"
                          BackgroundColor="{StaticResource AccentColor}"
                          CornerRadius="18"
+                         VerticalOptions="Center"
                          Clicked="OnGoClicked"
                          ToolTipProperties.Text="Navigate" />
 
@@ -89,6 +93,7 @@
                          HeightRequest="36"
                          Padding="8"
                          BackgroundColor="Transparent"
+                         VerticalOptions="Center"
                          Clicked="OnLoadHtmlClicked"
                          ToolTipProperties.Text="Load Demo HTML" />
 
@@ -100,8 +105,21 @@
                          HeightRequest="36"
                          Padding="8"
                          BackgroundColor="Transparent"
+                         VerticalOptions="Center"
                          Clicked="OnEvalJsClicked"
                          ToolTipProperties.Text="Run JavaScript" />
+
+            <!-- Theme Toggle Button -->
+            <ImageButton Grid.Column="7"
+                         x:Name="ThemeToggleButton"
+                         Source="{AppThemeBinding Light=dark_mode.svg, Dark=light_mode.svg}"
+                         WidthRequest="36"
+                         HeightRequest="36"
+                         Padding="8"
+                         BackgroundColor="Transparent"
+                         VerticalOptions="Center"
+                         Clicked="OnThemeToggleClicked"
+                         ToolTipProperties.Text="Toggle Theme" />
         </Grid>
 
         <!-- Loading Progress Bar -->

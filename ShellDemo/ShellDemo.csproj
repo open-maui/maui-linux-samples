@@ -12,17 +12,24 @@
     <ApplicationId>com.openmaui.shelldemo</ApplicationId>
     <ApplicationVersion>1.0.0</ApplicationVersion>
 
-    <!-- MAUI Settings -->
-    <UseMaui>true</UseMaui>
+    <!-- MAUI Settings (conditional based on platform) -->
     <SingleProject>true</SingleProject>
     <EnableDefaultXamlItems>true</EnableDefaultXamlItems>
+  </PropertyGroup>
 
-    <!-- Linux Runtime -->
+  <!-- Non-Linux platforms: Use official MAUI workload -->
+  <PropertyGroup Condition="!$([MSBuild]::IsOSPlatform('Linux'))">
+    <UseMaui>true</UseMaui>
+    <TargetFrameworks>net9.0-android;net9.0-ios;net9.0-maccatalyst;net9.0-windows10.0.19041.0</TargetFrameworks>
+  </PropertyGroup>
+
+  <!-- Linux: Use OpenMaui -->
+  <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('Linux'))">
     <RuntimeIdentifiers>linux-x64;linux-arm64</RuntimeIdentifiers>
   </PropertyGroup>
 
-  <ItemGroup>
-    <!-- OpenMaui Linux Platform (local development reference) -->
+  <!-- OpenMaui Linux Platform (used on Linux) -->
+  <ItemGroup Condition="$([MSBuild]::IsOSPlatform('Linux'))">
     <ProjectReference Include="../../maui-linux/OpenMaui.Controls.Linux.csproj" />
   </ItemGroup>
 
