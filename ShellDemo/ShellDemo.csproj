@@ -28,9 +28,14 @@
     <RuntimeIdentifiers>linux-x64;linux-arm64</RuntimeIdentifiers>
   </PropertyGroup>
 
-  <!-- OpenMaui Linux Platform (used on Linux) -->
-  <ItemGroup Condition="$([MSBuild]::IsOSPlatform('Linux'))">
+  <!-- OpenMaui Linux Platform - Local development (ProjectReference) -->
+  <ItemGroup Condition="$([MSBuild]::IsOSPlatform('Linux')) AND Exists('../../maui-linux/OpenMaui.Controls.Linux.csproj') AND '$(UsePackageReference)' != 'true'">
     <ProjectReference Include="../../maui-linux/OpenMaui.Controls.Linux.csproj" />
+  </ItemGroup>
+
+  <!-- OpenMaui Linux Platform - CI/CD builds (PackageReference) -->
+  <ItemGroup Condition="$([MSBuild]::IsOSPlatform('Linux')) AND (!Exists('../../maui-linux/OpenMaui.Controls.Linux.csproj') OR '$(UsePackageReference)' == 'true')">
+    <PackageReference Include="OpenMaui.Controls.Linux" Version="*" />
   </ItemGroup>
 
   <!-- XAML Files -->
