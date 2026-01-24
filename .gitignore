@@ -51,3 +51,12 @@ TestResults/
 
 # Publish output
 publish/
+
+# Flatpak build artifacts
+.flatpak-builder/
+*.flatpak
+repo/
+
+# AppImage artifacts
+*.AppImage
+*.AppDir/
