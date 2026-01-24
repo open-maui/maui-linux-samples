@@ -82,6 +82,7 @@
                     <Label x:Name="StatusLabel"
                            Text="In Progress"
                            FontSize="16"
+                           LineBreakMode="NoWrap"
                            TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}"
                            VerticalOptions="Center" />
                 </HorizontalStackLayout>
@@ -92,6 +93,7 @@
         <Label Grid.Row="4"
                x:Name="CreatedLabel"
                FontSize="13"
+               LineBreakMode="NoWrap"
                TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
                HorizontalOptions="Center"
                HorizontalTextAlignment="Center" />

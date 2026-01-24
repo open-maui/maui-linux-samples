@@ -41,6 +41,7 @@
   <!-- Embedded Resources (icons) -->
   <ItemGroup>
     <EmbeddedResource Include="Resources\Images\*.svg" />
+    <EmbeddedResource Include="Resources\Images\*.png" />
   </ItemGroup>
 
 </Project>

@@ -12,36 +12,40 @@
 
     <!-- Flyout Header -->
     <Shell.FlyoutHeader>
-        <Grid BackgroundColor="{AppThemeBinding Light={StaticResource FlyoutHeaderBackgroundLight}, Dark={StaticResource FlyoutHeaderBackgroundDark}}"
-              HeightRequest="140"
-              Padding="15">
-            <HorizontalStackLayout VerticalOptions="Center" Spacing="12">
-                <Border WidthRequest="60"
-                        HeightRequest="60"
-                        StrokeThickness="0"
-                        BackgroundColor="{AppThemeBinding Light=White, Dark=#2C2C2C}">
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="30" />
-                    </Border.StrokeShape>
-                    <Label Text="OM"
-                           FontSize="24"
-                           FontAttributes="Bold"
-                           TextColor="{StaticResource PrimaryColor}"
-                           HorizontalOptions="Center"
-                           VerticalOptions="Center" />
-                </Border>
-                <VerticalStackLayout VerticalOptions="Center">
-                    <Label Text="OpenMaui"
-                           FontSize="22"
-                           FontAttributes="Bold"
-                           TextColor="{AppThemeBinding Light=White, Dark=#E0E0E0}" />
-                    <Label Text="Controls Demo"
-                           FontSize="13"
-                           TextColor="{AppThemeBinding Light=#E0E0E0, Dark=#B0B0B0}" />
-                </VerticalStackLayout>
-            </HorizontalStackLayout>
+        <Grid BackgroundColor="{AppThemeBinding Light=#E8E8E8, Dark=#2A2A2A}"
+              HeightRequest="120">
+            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Fill">
+                <Image Source="logo_only.png"
+                       WidthRequest="80"
+                       HeightRequest="80"
+                       HorizontalOptions="Center" />
+                <Label Text="OpenMaui"
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"
+                       TextColor="{AppThemeBinding Light=#212121, Dark=#E0E0E0}" />
+                <Label Text="Controls Demo"
+                       FontSize="11"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"
+                       TextColor="{AppThemeBinding Light=#757575, Dark=#B0B0B0}" />
+            </VerticalStackLayout>
         </Grid>
     </Shell.FlyoutHeader>
+
+    <!-- Flyout Footer -->
+    <Shell.FlyoutFooter>
+        <Grid BackgroundColor="{AppThemeBinding Light={StaticResource CardBackgroundLight}, Dark={StaticResource CardBackgroundDark}}"
+              HeightRequest="50"
+              Padding="16,0">
+            <Label Text="{Binding AppVersion}"
+                   FontSize="12"
+                   TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Start" />
+        </Grid>
+    </Shell.FlyoutFooter>
 
     <!-- Home -->
     <FlyoutItem Title="Home" Route="Home"

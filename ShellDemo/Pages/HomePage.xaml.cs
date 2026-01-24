@@ -9,35 +9,62 @@ namespace ShellDemo;
 
 public partial class HomePage : ContentPage
 {
+    private bool _isUpdatingThemeSwitch;
+
     public HomePage()
     {
         InitializeComponent();
         CreateFeatureCards();
+        UpdateThemeSwitchState();
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        UpdateThemeSwitchState();
+    }
+
+    private void UpdateThemeSwitchState()
+    {
+        _isUpdatingThemeSwitch = true;
+        var isDark = Application.Current?.UserAppTheme == AppTheme.Dark ||
+                    (Application.Current?.UserAppTheme == AppTheme.Unspecified &&
+                     Application.Current?.RequestedTheme == AppTheme.Dark);
+        ThemeSwitch.IsToggled = isDark;
+        _isUpdatingThemeSwitch = false;
+    }
+
+    private void OnThemeSwitchToggled(object? sender, ToggledEventArgs e)
+    {
+        if (_isUpdatingThemeSwitch || Application.Current == null) return;
+
+        Application.Current.UserAppTheme = e.Value ? AppTheme.Dark : AppTheme.Light;
     }
 
     private void CreateFeatureCards()
     {
+        // Title, Description, Route
         var features = new[]
         {
-            ("Buttons", "Various button styles and events"),
-            ("Text Input", "Entry, Editor, SearchBar"),
-            ("Selection", "CheckBox, Switch, Slider"),
-            ("Pickers", "Picker, DatePicker, TimePicker"),
-            ("Lists", "CollectionView with selection"),
-            ("Progress", "ProgressBar, ActivityIndicator")
+            ("Buttons", "Various button styles and events", "Buttons"),
+            ("Text Input", "Entry, Editor, SearchBar", "TextInput"),
+            ("Selection", "CheckBox, Switch, Slider", "Selection"),
+            ("Pickers", "Picker, DatePicker, TimePicker", "Pickers"),
+            ("Lists", "CollectionView with selection", "Lists"),
+            ("Progress", "ProgressBar, ActivityIndicator", "Progress")
         };
 
         for (int i = 0; i < features.Length; i++)
         {
-            var (title, desc) = features[i];
-            var card = CreateFeatureCard(title, desc);
+            var (title, desc, route) = features[i];
+            var card = CreateFeatureCard(title, desc, route);
             Grid.SetRow(card, i / 2);
             Grid.SetColumn(card, i % 2);
             FeatureGrid.Children.Add(card);
         }
     }
 
-    private Border CreateFeatureCard(string title, string description)
+    private Border CreateFeatureCard(string title, string description, string route)
     {
         // Use AppThemeBinding for card colors
         var cardBackground = new AppThemeBindingExtension
@@ -99,6 +126,11 @@ public partial class HomePage : ContentPage
         border.SetAppThemeColor(Border.BackgroundColorProperty,
             Application.Current?.Resources["CardBackgroundLight"] as Color ?? Colors.White,
             Application.Current?.Resources["CardBackgroundDark"] as Color ?? Color.FromArgb("#1E1E1E"));
+
+        // Add tap gesture for navigation
+        var tapGesture = new TapGestureRecognizer();
+        tapGesture.Tapped += (s, e) => LinuxViewRenderer.NavigateToRoute(route);
+        border.GestureRecognizers.Add(tapGesture);
 
         return border;
     }
