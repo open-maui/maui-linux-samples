@@ -1,0 +1,72 @@
+# OpenMaui Linux Samples CI
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+jobs:
+  build-linux-x64:
+    name: Build Samples (Linux x64)
+    runs-on: linux-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build ShellDemo
+        run: dotnet build ShellDemo/ShellDemo.csproj --configuration Release
+
+      - name: Build TodoApp
+        run: dotnet build TodoApp/TodoApp.csproj --configuration Release
+
+      - name: Build WebViewDemo
+        run: dotnet build WebViewDemo/WebViewDemo.csproj --configuration Release
+
+  build-linux-arm64:
+    name: Build Samples (Linux arm64)
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Build in Docker (arm64)
+        run: |
+          docker run --rm --platform linux/arm64 \
+            -v "$PWD:/src" -w /src \
+            mcr.microsoft.com/dotnet/sdk:9.0 \
+            bash -c "dotnet restore && dotnet build --configuration Release"
+
+  build-windows:
+    name: Build Samples (Windows)
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build all samples
+        run: dotnet build --configuration Release
+
+  build-macos:
+    name: Build Samples (macOS)
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build all samples
+        run: dotnet build --configuration Release

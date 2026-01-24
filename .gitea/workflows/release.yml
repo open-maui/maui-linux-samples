@@ -1,0 +1,155 @@
+# OpenMaui Linux Samples Release - Build AppImages
+name: Release
+
+on:
+  release:
+    types: [published]
+  push:
+    tags:
+      - 'v*'
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  GITEA_PACKAGES_URL: https://git.marketally.com/api/packages/AuroraOSS/nuget/index.json
+
+jobs:
+  build-appimages-x64:
+    name: Build AppImages (Linux x64)
+    runs-on: linux-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install appimagetool
+        run: |
+          wget -q https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O /tmp/appimagetool
+          chmod +x /tmp/appimagetool
+          sudo mv /tmp/appimagetool /usr/local/bin/appimagetool
+
+      - name: Add Gitea NuGet source
+        run: |
+          dotnet nuget add source "$GITEA_PACKAGES_URL" --name gitea || true
+
+      - name: Install OpenMaui.AppImage tool
+        run: |
+          dotnet tool install --global OpenMaui.AppImage || \
+          dotnet tool install --global OpenMaui.AppImage --add-source "$GITEA_PACKAGES_URL" || \
+          dotnet tool update --global OpenMaui.AppImage
+
+      - name: Publish ShellDemo
+        run: dotnet publish ShellDemo/ShellDemo.csproj -c Release -r linux-x64 --self-contained -o ./publish/ShellDemo
+
+      - name: Publish TodoApp
+        run: dotnet publish TodoApp/TodoApp.csproj -c Release -r linux-x64 --self-contained -o ./publish/TodoApp
+
+      - name: Publish WebViewDemo
+        run: dotnet publish WebViewDemo/WebViewDemo.csproj -c Release -r linux-x64 --self-contained -o ./publish/WebViewDemo
+
+      - name: Create ShellDemo AppImage
+        run: |
+          mkdir -p ./appimages
+          ~/.dotnet/tools/openmaui-appimage \
+            -i ./publish/ShellDemo \
+            -o ./appimages/ShellDemo-x64.AppImage \
+            -n "Shell Demo"
+
+      - name: Create TodoApp AppImage
+        run: |
+          ~/.dotnet/tools/openmaui-appimage \
+            -i ./publish/TodoApp \
+            -o ./appimages/TodoApp-x64.AppImage \
+            -n "Todo App"
+
+      - name: Create WebViewDemo AppImage
+        run: |
+          ~/.dotnet/tools/openmaui-appimage \
+            -i ./publish/WebViewDemo \
+            -o ./appimages/WebViewDemo-x64.AppImage \
+            -n "WebView Demo"
+
+      - name: Upload AppImages
+        uses: actions/upload-artifact@v3
+        with:
+          name: appimages-x64
+          path: ./appimages/*.AppImage
+
+  build-appimages-arm64:
+    name: Build AppImages (Linux arm64)
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Build and package in Docker (arm64)
+        run: |
+          mkdir -p ./appimages
+
+          docker run --rm --platform linux/arm64 \
+            -v "$PWD:/src" -w /src \
+            -e GITEA_PACKAGES_URL="$GITEA_PACKAGES_URL" \
+            mcr.microsoft.com/dotnet/sdk:9.0 \
+            bash -c "
+              set -e
+
+              # Install appimagetool
+              apt-get update && apt-get install -y wget file
+              wget -q https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-aarch64.AppImage -O /tmp/appimagetool
+              chmod +x /tmp/appimagetool
+              mv /tmp/appimagetool /usr/local/bin/appimagetool
+
+              # Add Gitea source and install tool
+              dotnet nuget add source \"\$GITEA_PACKAGES_URL\" --name gitea || true
+              dotnet tool install --global OpenMaui.AppImage || \
+                dotnet tool install --global OpenMaui.AppImage --add-source \"\$GITEA_PACKAGES_URL\" || true
+              export PATH=\"\$PATH:/root/.dotnet/tools\"
+
+              # Publish samples
+              dotnet publish ShellDemo/ShellDemo.csproj -c Release -r linux-arm64 --self-contained -o ./publish/ShellDemo
+              dotnet publish TodoApp/TodoApp.csproj -c Release -r linux-arm64 --self-contained -o ./publish/TodoApp
+              dotnet publish WebViewDemo/WebViewDemo.csproj -c Release -r linux-arm64 --self-contained -o ./publish/WebViewDemo
+
+              # Create AppImages
+              mkdir -p ./appimages
+              openmaui-appimage -i ./publish/ShellDemo -o ./appimages/ShellDemo-arm64.AppImage -n 'Shell Demo'
+              openmaui-appimage -i ./publish/TodoApp -o ./appimages/TodoApp-arm64.AppImage -n 'Todo App'
+              openmaui-appimage -i ./publish/WebViewDemo -o ./appimages/WebViewDemo-arm64.AppImage -n 'WebView Demo'
+            "
+
+      - name: Upload AppImages
+        uses: actions/upload-artifact@v3
+        with:
+          name: appimages-arm64
+          path: ./appimages/*.AppImage
+
+  create-release:
+    name: Attach to Release
+    needs: [build-appimages-x64, build-appimages-arm64]
+    runs-on: linux-latest
+    if: github.event_name == 'release'
+    steps:
+      - name: Download x64 AppImages
+        uses: actions/download-artifact@v3
+        with:
+          name: appimages-x64
+          path: ./release
+
+      - name: Download arm64 AppImages
+        uses: actions/download-artifact@v3
+        with:
+          name: appimages-arm64
+          path: ./release
+
+      - name: List release files
+        run: ls -la ./release/
+
+      - name: Upload to Gitea Release
+        run: |
+          for file in ./release/*.AppImage; do
+            filename=$(basename "$file")
+            curl -X POST \
+              -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              -H "Content-Type: application/octet-stream" \
+              --data-binary @"$file" \
+              "https://git.marketally.com/api/v1/repos/${{ github.repository }}/releases/${{ github.event.release.id }}/assets?name=$filename"
+          done
