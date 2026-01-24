@@ -38,6 +38,11 @@
     <MauiXaml Update="**/*.xaml" />
   </ItemGroup>
 
+  <!-- App Icon -->
+  <ItemGroup>
+    <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#FFFFFF" BackgroundColor="#0F839E" />
+  </ItemGroup>
+
   <!-- Images -->
   <ItemGroup>
     <MauiImage Include="Resources\Images\*.svg" />

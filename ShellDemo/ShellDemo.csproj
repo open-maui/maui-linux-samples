@@ -38,7 +38,12 @@
     <MauiXaml Update="**/*.xaml" />
   </ItemGroup>
 
-  <!-- Embedded Resources (icons) -->
+  <!-- App Icon -->
+  <ItemGroup>
+    <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#FFFFFF" BackgroundColor="#1B79C4" />
+  </ItemGroup>
+
+  <!-- Embedded Resources (images) -->
   <ItemGroup>
     <EmbeddedResource Include="Resources\Images\*.svg" />
     <EmbeddedResource Include="Resources\Images\*.png" />
