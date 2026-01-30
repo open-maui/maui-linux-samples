@@ -1,5 +1,0 @@
-sleep: invalid time interval ‘cd’
-sleep: invalid time interval ‘/home/friedel/Documents/Gitea/maui-linux-samples/ShellDemo/bin/Debug/net9.0’
-sleep: invalid time interval ‘timeout’
-sleep: invalid time interval ‘./ShellDemo’
-Try 'sleep --help' for more information.
