@@ -15,7 +15,7 @@
                    TextColor="{AppThemeBinding Light=#1A237E, Dark=#7986CB}"
                    HorizontalOptions="Center" />
 
-            <Label Text="Version 1.0.0"
+            <Label Text="OpenMaui Version 10"
                    FontSize="16"
                    TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
                    HorizontalOptions="Center" />
