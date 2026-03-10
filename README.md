@@ -45,7 +45,7 @@ This repository contains production-ready sample applications showcasing **OpenM
 ## Requirements
 
 **Software:**
-- .NET 9.0 SDK or later
+- .NET 10.0 SDK or later
 - Linux with X11 display server (Wayland not yet supported)
 - Supported distributions: Ubuntu 20.04+, Fedora 35+, Debian 11+, or similar
 
@@ -73,13 +73,13 @@ cd maui-linux-samples
 
 ### Install .NET SDK
 
-If you don't have .NET 9.0 SDK installed:
+If you don't have .NET 10.0 SDK installed:
 
 ```bash
 # Download and install .NET SDK
 wget https://dot.net/v1/dotnet-install.sh
 chmod +x dotnet-install.sh
-./dotnet-install.sh --channel 9.0
+./dotnet-install.sh --channel 10.0
 
 # Add to PATH (add to ~/.bashrc for persistence)
 export DOTNET_ROOT=$HOME/.dotnet
@@ -89,7 +89,7 @@ export PATH=$DOTNET_ROOT:$PATH
 ### Verify Installation
 
 ```bash
-dotnet --version  # Should show 9.0.x or later
+dotnet --version  # Should show 10.0.x or later
 ```
 
 ## Quick Start
@@ -146,7 +146,7 @@ A web browser window will open. You can:
 # Build without running
 dotnet build
 
-# Output location: bin/Debug/net9.0/
+# Output location: bin/Debug/net10.0/
 ```
 
 ### Release Build
@@ -171,7 +171,7 @@ dotnet publish -c Release -r linux-arm64 --self-contained
 dotnet publish -c Release -r linux-x64 --no-self-contained
 ```
 
-Published applications will be in `bin/Release/net9.0/linux-x64/publish/` and can be distributed as standalone executables.
+Published applications will be in `bin/Release/net10.0/linux-x64/publish/` and can be distributed as standalone executables.
 
 ### Create Desktop Launcher
 
@@ -415,7 +415,7 @@ All samples use conditional compilation for cross-platform support:
 <!-- SampleApp.csproj -->
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <OutputType>Exe</OutputType>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
@@ -455,7 +455,7 @@ dotnet new console -n MyApp
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <EnableDefaultXamlItems>true</EnableDefaultXamlItems>
   </PropertyGroup>
@@ -769,11 +769,17 @@ private void OnNavigated(object? sender, WebNavigatedEventArgs e)
 - **[.NET MAUI Documentation](https://learn.microsoft.com/dotnet/maui/)** - Official Microsoft documentation
 - **[SkiaSharp Documentation](https://learn.microsoft.com/xamarin/xamarin-forms/user-interface/graphics/skiasharp/)** - Graphics rendering engine
 
+## Support
+
+If you find OpenMaui useful, consider supporting the developer:
+
+<a href="https://buymeacoffee.com/logikonline" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" height="40"></a>
+
 ## License
 
 MIT License - See [LICENSE](LICENSE) for details.
 
-Copyright (c) 2024 OpenMaui
+Copyright (c) 2024-2026 OpenMaui
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
