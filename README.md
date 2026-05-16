@@ -1,6 +1,6 @@
 # OpenMaui Linux Samples
 
-Sample applications demonstrating [OpenMaui Linux](https://git.marketally.com/open-maui/maui-linux) - .NET MAUI on Linux desktop with SkiaSharp rendering.
+Sample applications demonstrating [OpenMaui Linux](https://github.com/open-maui/maui-linux) - .NET MAUI on Linux desktop with SkiaSharp rendering.
 
 ## Table of Contents
 
@@ -764,7 +764,7 @@ private void OnNavigated(object? sender, WebNavigatedEventArgs e)
 
 ## Related Resources
 
-- **[OpenMaui Linux Framework](https://git.marketally.com/open-maui/maui-linux)** - The core framework repository
+- **[OpenMaui Linux Framework](https://github.com/open-maui/maui-linux)** - The core framework repository
 - **[NuGet Package](https://www.nuget.org/packages/OpenMaui.Controls.Linux)** - Install via NuGet
 - **[.NET MAUI Documentation](https://learn.microsoft.com/dotnet/maui/)** - Official Microsoft documentation
 - **[SkiaSharp Documentation](https://learn.microsoft.com/xamarin/xamarin-forms/user-interface/graphics/skiasharp/)** - Graphics rendering engine
