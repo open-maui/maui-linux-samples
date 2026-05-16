@@ -1,0 +1,56 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+    <!-- Application Info -->
+    <ApplicationTitle>OpenMaui Media Demo</ApplicationTitle>
+    <ApplicationId>com.openmaui.mediademo</ApplicationId>
+    <ApplicationVersion>10.0.0</ApplicationVersion>
+    <Version>10.0.0</Version>
+
+    <SingleProject>true</SingleProject>
+    <EnableDefaultXamlItems>true</EnableDefaultXamlItems>
+  </PropertyGroup>
+
+  <!-- Non-Linux platforms: Use official MAUI workload. CommunityToolkit.Maui.MediaElement
+       ships its own platform handlers there, so no platform-specific Linux ref needed. -->
+  <PropertyGroup Condition="!$([MSBuild]::IsOSPlatform('Linux'))">
+    <UseMaui>true</UseMaui>
+    <TargetFrameworks>net10.0-android;net10.0-ios;net10.0-maccatalyst;net10.0-windows10.0.19041.0</TargetFrameworks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('Linux'))">
+    <RuntimeIdentifiers>linux-x64;linux-arm64</RuntimeIdentifiers>
+  </PropertyGroup>
+
+  <!-- Cross-platform: MediaElement control + interface -->
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Maui.MediaElement" Version="9.0.0" />
+  </ItemGroup>
+
+  <!-- OpenMaui Linux Platform - Local development (ProjectReference) -->
+  <ItemGroup Condition="$([MSBuild]::IsOSPlatform('Linux')) AND Exists('../../maui-linux/OpenMaui.Controls.Linux.csproj') AND '$(UsePackageReference)' != 'true'">
+    <ProjectReference Include="../../maui-linux/OpenMaui.Controls.Linux.csproj" />
+    <ProjectReference Include="../../maui-linux/MediaElement/OpenMaui.Controls.Linux.MediaElement.csproj" />
+  </ItemGroup>
+
+  <!-- OpenMaui Linux Platform - CI/CD builds (PackageReference) -->
+  <ItemGroup Condition="$([MSBuild]::IsOSPlatform('Linux')) AND (!Exists('../../maui-linux/OpenMaui.Controls.Linux.csproj') OR '$(UsePackageReference)' == 'true')">
+    <PackageReference Include="OpenMaui.Controls.Linux" Version="*" />
+    <PackageReference Include="OpenMaui.Controls.Linux.MediaElement" Version="*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <MauiXaml Update="**/*.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#FFFFFF" BackgroundColor="#1D5DB3" />
+  </ItemGroup>
+
+</Project>

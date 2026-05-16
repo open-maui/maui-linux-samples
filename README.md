@@ -14,6 +14,7 @@ Sample applications demonstrating [OpenMaui Linux](https://github.com/open-maui/
   - [TodoApp](#todoapp)
   - [ShellDemo](#shelldemo)
   - [WebViewDemo](#webviewdemo)
+  - [MediaDemo](#mediademo)
 - [Project Structure](#project-structure)
 - [Development Guide](#development-guide)
 - [API Usage Examples](#api-usage-examples)
@@ -41,6 +42,7 @@ This repository contains production-ready sample applications showcasing **OpenM
 | [TodoApp](./TodoApp/) | Full-featured task manager | NavigationPage, XAML data binding, CollectionView, value converters, theme switching |
 | [ShellDemo](./ShellDemo/) | Comprehensive control showcase | Shell navigation, flyout menu, all core controls, event logging |
 | [WebViewDemo](./WebViewDemo/) | Web browser with WebKitGTK | WebView, JavaScript evaluation, GTK integration, HTML rendering |
+| [MediaDemo](./MediaDemo/) | Video / audio playback via MediaElement | CommunityToolkit.Maui.MediaElement on Linux, GStreamer backend, play/pause/stop/seek/volume/mute |
 
 ## Requirements
 
@@ -60,6 +62,16 @@ sudo dnf install fontconfig-devel freetype-devel
 # For WebView support (WebViewDemo)
 sudo apt-get install libwebkit2gtk-4.0-dev  # Ubuntu/Debian
 sudo dnf install webkit2gtk3-devel          # Fedora/RHEL
+
+# For MediaElement support (MediaDemo)
+# Ubuntu/Debian:
+sudo apt-get install gstreamer1.0-plugins-good gstreamer1.0-plugins-bad \
+                     gstreamer1.0-plugins-ugly gstreamer1.0-libav gstreamer1.0-vaapi
+# Fedora/RHEL:
+sudo dnf install gstreamer1-plugins-good gstreamer1-plugins-bad-free \
+                 gstreamer1-plugins-ugly-free gstreamer1-libav gstreamer1-vaapi
+# (gstreamer1-vaapi enables hardware-accelerated decode on Intel/AMD GPUs;
+#  replace with the nvdec plugin for NVIDIA. Software decode works without either.)
 ```
 
 ## Installation
@@ -137,6 +149,21 @@ A web browser window will open. You can:
 - Load custom HTML content
 - Execute JavaScript
 - Toggle themes
+
+### Run MediaDemo
+
+```bash
+cd ../MediaDemo
+dotnet run
+```
+
+A video player window will open with the Sintel trailer pre-loaded (Creative Commons, served by Blender Foundation). You can:
+- Play / Pause / Stop the video
+- Scrub via the position slider
+- Adjust volume and mute
+- Paste any media URL (mp4, mkv, mp3, http/https streams) or file path into the entry and hit **Load**
+
+Note: requires GStreamer 1.x + the plugin packages listed under System Dependencies above. Hardware-accelerated decode kicks in automatically when `gstreamer1-vaapi` (Intel/AMD) or the nvdec plugin (NVIDIA) is installed.
 
 ## Building and Deployment
 
@@ -386,6 +413,59 @@ private void OnLoadHtmlClicked(object? sender, EventArgs e)
 
 **Logging:**
 Application logs are written to `~/webviewdemo.log` for debugging.
+
+### MediaDemo
+
+A video and audio player demonstrating `CommunityToolkit.Maui.MediaElement` on Linux via the **OpenMaui.Controls.Linux.MediaElement** sibling package (GStreamer backend).
+
+**Features:**
+- **MediaElement** with full playback (play / pause / stop / seek)
+- **Position slider** with live time display, drag-to-seek
+- **Volume slider** + mute toggle
+- **URL entry** for loading arbitrary streams or local files (mp4, mkv, mp3, http/https, rtsp)
+- **Aspect-correct video rendering** in a Skia surface (AspectFit by default)
+- **Hardware-accelerated decode** via VAAPI / NVDEC when those GStreamer plugins are installed
+
+**Runtime requirements (Linux):**
+- GStreamer 1.x core (almost always preinstalled on desktop Linux)
+- Plugin sets: `gstreamer1-plugins-good`, `-bad-free`, `-ugly-free`, `-libav` (broad codec coverage)
+- Optional: `gstreamer1-vaapi` (Intel/AMD HW decode) or `gstreamer1-nvdec` (NVIDIA)
+
+See the **System Dependencies** section near the top of this README for distro-specific install commands.
+
+**Important:** The sample's `MauiProgram.cs` opts in to the Linux backend explicitly. Cross-platform projects keep `.UseLinuxMediaElement()` in their builder chain — it's a safe no-op on Windows / Android / iOS / macCatalyst where the toolkit's own handlers serve the same MediaElement control:
+
+```csharp
+// MediaDemo/MauiProgram.cs
+builder
+    .UseMauiApp<App>()
+    .UseMauiCommunityToolkitMediaElement(isAndroidForegroundServiceEnabled: false)
+    .UseLinux()
+    .UseLinuxMediaElement();   // Linux backend; no-op elsewhere
+```
+
+**Code Example - playback controls:**
+
+```xaml
+<toolkit:MediaElement x:Name="Player"
+                      Aspect="AspectFit"
+                      Source="https://download.blender.org/durian/trailer/sintel_trailer-720p.mp4"
+                      Volume="0.8" />
+```
+
+```csharp
+private void OnPlayClicked(object? sender, EventArgs e)  => Player.Play();
+private void OnPauseClicked(object? sender, EventArgs e) => Player.Pause();
+private void OnStopClicked(object? sender, EventArgs e)  => Player.Stop();
+
+private async void OnPositionDragCompleted(object? sender, EventArgs e)
+{
+    await Player.SeekTo(TimeSpan.FromSeconds(PositionSlider.Value));
+}
+```
+
+**Logging:**
+Application logs are written to `~/mediademo.log` for debugging.
 
 ## Project Structure
 
