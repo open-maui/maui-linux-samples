@@ -433,6 +433,8 @@ A video and audio player demonstrating `CommunityToolkit.Maui.MediaElement` on L
 
 See the **System Dependencies** section near the top of this README for distro-specific install commands.
 
+**Scrub-accuracy note:** For local files, seeks land frame-accurately. For HTTP-streamed sources, backward seeks can land 1–2 seconds off the requested position because the pipeline must re-request earlier byte ranges and decode-and-discard back to the target — this is a fundamental property of streaming over HTTP and matches the behavior of YouTube / Vimeo. Forward scrubs and click-to-position are typically accurate within a frame.
+
 **Important:** The sample's `MauiProgram.cs` opts in to the Linux backend explicitly. Cross-platform projects keep `.UseLinuxMediaElement()` in their builder chain — it's a safe no-op on Windows / Android / iOS / macCatalyst where the toolkit's own handlers serve the same MediaElement control:
 
 ```csharp
