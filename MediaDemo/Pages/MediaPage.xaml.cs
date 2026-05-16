@@ -40,12 +40,13 @@ public partial class MediaPage : ContentPage
             // first keyframe at or after it. Hold the slider at the user's
             // requested target until the reported position actually arrives
             // near it. Two guards combined:
-            //   - 4s upper bound (don't anchor forever if the seek failed)
-            //   - "near enough" check (within 2s of the slider value)
+            //   - 2s upper bound (don't anchor forever; release so the slider
+            //     can show actual playback even if it differs from target)
+            //   - "near enough" check (within 1s of the slider value)
             // Whichever fires first releases the anchor.
             var secsSinceSeek = (DateTime.UtcNow - _lastSeekAt).TotalSeconds;
-            var posReachedTarget = Math.Abs(pos.TotalSeconds - PositionSlider.Value) < 2.0;
-            if (secsSinceSeek < 4.0 && !posReachedTarget)
+            var posReachedTarget = Math.Abs(pos.TotalSeconds - PositionSlider.Value) < 1.0;
+            if (secsSinceSeek < 2.0 && !posReachedTarget)
             {
                 PositionLabel.Text = FormatTime(TimeSpan.FromSeconds(PositionSlider.Value));
                 return;
