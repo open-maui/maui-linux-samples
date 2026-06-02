@@ -31,6 +31,13 @@ jobs:
       - name: Build WebViewDemo
         run: dotnet build WebViewDemo/WebViewDemo.csproj --configuration Release
 
+      - name: Build MediaDemo
+        # MediaDemo references the opt-in OpenMaui.Controls.Linux.MediaElement
+        # sibling package + CommunityToolkit.Maui.MediaElement. Runtime needs
+        # GStreamer + plugin sets — irrelevant for compile but documented in
+        # the sample README.
+        run: dotnet build MediaDemo/MediaDemo.csproj --configuration Release
+
   build-linux-arm64:
     name: Build Samples (Linux arm64)
     runs-on: macos-latest

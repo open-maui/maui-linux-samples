@@ -46,6 +46,9 @@ jobs:
       - name: Publish WebViewDemo
         run: dotnet publish WebViewDemo/WebViewDemo.csproj -c Release -r linux-x64 --self-contained -o ./publish/WebViewDemo
 
+      - name: Publish MediaDemo
+        run: dotnet publish MediaDemo/MediaDemo.csproj -c Release -r linux-x64 --self-contained -o ./publish/MediaDemo
+
       - name: Create ShellDemo AppImage
         run: |
           mkdir -p ./appimages
@@ -67,6 +70,17 @@ jobs:
             -i ./publish/WebViewDemo \
             -o ./appimages/WebViewDemo-x64.AppImage \
             -n "WebView Demo"
+
+      - name: Create MediaDemo AppImage
+        # The AppImage does NOT bundle GStreamer — it's expected to be a
+        # system dep (every modern desktop distro ships it). Plugin packages
+        # (gstreamer1-plugins-good/bad/ugly/libav, vaapi/nvdec) are runtime
+        # dependencies; the README documents the install commands.
+        run: |
+          ~/.dotnet/tools/openmaui-appimage \
+            -i ./publish/MediaDemo \
+            -o ./appimages/MediaDemo-x64.AppImage \
+            -n "Media Demo"
 
       - name: Upload AppImages
         uses: actions/upload-artifact@v3
@@ -108,12 +122,14 @@ jobs:
               dotnet publish ShellDemo/ShellDemo.csproj -c Release -r linux-arm64 --self-contained -o ./publish/ShellDemo
               dotnet publish TodoApp/TodoApp.csproj -c Release -r linux-arm64 --self-contained -o ./publish/TodoApp
               dotnet publish WebViewDemo/WebViewDemo.csproj -c Release -r linux-arm64 --self-contained -o ./publish/WebViewDemo
+              dotnet publish MediaDemo/MediaDemo.csproj -c Release -r linux-arm64 --self-contained -o ./publish/MediaDemo
 
               # Create AppImages
               mkdir -p ./appimages
               openmaui-appimage -i ./publish/ShellDemo -o ./appimages/ShellDemo-arm64.AppImage -n 'Shell Demo'
               openmaui-appimage -i ./publish/TodoApp -o ./appimages/TodoApp-arm64.AppImage -n 'Todo App'
               openmaui-appimage -i ./publish/WebViewDemo -o ./appimages/WebViewDemo-arm64.AppImage -n 'WebView Demo'
+              openmaui-appimage -i ./publish/MediaDemo -o ./appimages/MediaDemo-arm64.AppImage -n 'Media Demo'
             "
 
       - name: Upload AppImages
