@@ -28,6 +28,7 @@ public partial class MapsPage : ContentPage
             ("Rome",      41.9028,  12.4964),
             ("Madrid",    40.4168,  -3.7038),
             ("Moscow",    55.7558,  37.6173),
+            ("Tallinn",   59.4370,  24.7536),
             // North America
             ("New York",  40.7128, -74.0060),
             ("Toronto",   43.6532, -79.3832),
@@ -89,6 +90,9 @@ public partial class MapsPage : ContentPage
     // --- Quick-jump handlers ---
     void OnGoParis(object? sender, EventArgs e)     => MoveTo(48.8566,   2.3522, 4000);
     void OnGoLondon(object? sender, EventArgs e)    => MoveTo(51.5074,  -0.1278, 4000);
+    // Tallinn — Estonia's capital. Tighter 800 km radius so the country fills
+    // the viewport rather than getting lost in a Baltic-wide frame.
+    void OnGoEstonia(object? sender, EventArgs e)   => MoveTo(59.4370,  24.7536, 800);
     void OnGoNewYork(object? sender, EventArgs e)   => MoveTo(40.7128, -74.0060, 4000);
     void OnGoTokyo(object? sender, EventArgs e)     => MoveTo(35.6762, 139.6503, 4000);
     void OnGoSingapore(object? sender, EventArgs e) => MoveTo(1.3521,  103.8198, 4000);

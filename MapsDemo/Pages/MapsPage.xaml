@@ -24,6 +24,7 @@
             <HorizontalStackLayout Spacing="8">
                 <Button x:Name="ParisBtn"        Text="Paris"        Style="{StaticResource LocationButton}" Clicked="OnGoParis" />
                 <Button x:Name="LondonBtn"      Text="London"      Style="{StaticResource LocationButton}" Clicked="OnGoLondon" />
+                <Button x:Name="EstoniaBtn"    Text="Estonia"     Style="{StaticResource LocationButton}" Clicked="OnGoEstonia" />
                 <Button x:Name="NewYorkBtn"     Text="New York"     Style="{StaticResource LocationButton}" Clicked="OnGoNewYork" />
                 <Button x:Name="TokyoBtn"       Text="Tokyo"       Style="{StaticResource LocationButton}" Clicked="OnGoTokyo" />
                 <Button x:Name="SingaporeBtn"  Text="Singapore"   Style="{StaticResource LocationButton}" Clicked="OnGoSingapore" />
