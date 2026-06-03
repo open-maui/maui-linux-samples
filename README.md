@@ -15,6 +15,7 @@ Sample applications demonstrating [OpenMaui Linux](https://github.com/open-maui/
   - [ShellDemo](#shelldemo)
   - [WebViewDemo](#webviewdemo)
   - [MediaDemo](#mediademo)
+  - [MapsDemo](#mapsdemo)
 - [Project Structure](#project-structure)
 - [Development Guide](#development-guide)
 - [API Usage Examples](#api-usage-examples)
@@ -43,6 +44,7 @@ This repository contains production-ready sample applications showcasing **OpenM
 | [ShellDemo](./ShellDemo/) | Comprehensive control showcase | Shell navigation, flyout menu, all core controls, event logging |
 | [WebViewDemo](./WebViewDemo/) | Web browser with WebKitGTK | WebView, JavaScript evaluation, GTK integration, HTML rendering |
 | [MediaDemo](./MediaDemo/) | Video / audio playback via MediaElement | CommunityToolkit.Maui.MediaElement on Linux, GStreamer backend, play/pause/stop/seek/volume/mute |
+| [MapsDemo](./MapsDemo/) | OpenStreetMap map view with pins and route | Microsoft.Maui.Controls.Maps on Linux, OSM raster tile cache, Pin/Polyline overlays, pan/zoom |
 
 ## Requirements
 
@@ -468,6 +470,62 @@ private async void OnPositionDragCompleted(object? sender, EventArgs e)
 
 **Logging:**
 Application logs are written to `~/mediademo.log` for debugging.
+
+### MapsDemo
+
+A map view demonstrating `Microsoft.Maui.Controls.Maps` on Linux via the **OpenMaui.Controls.Linux.Maps** sibling package. Renders OpenStreetMap raster tiles in SkiaSharp.
+
+**Features:**
+- **`<maps:Map>` cross-platform XAML** — same control as Apple Maps / Google Maps / Bing on the other platforms
+- **OpenStreetMap raster tiles** fetched from `tile.openstreetmap.org` and cached under `$XDG_CACHE_HOME/openmaui/osm-tiles`
+- **Six pins** placed on major Asian capitals (Tokyo, Seoul, Beijing, Hanoi, Bangkok, Singapore)
+- **Polyline overlay** tracing the Trans-Siberian Railway approximation (Moscow → Yekaterinburg → Novosibirsk → Irkutsk → Vladivostok)
+- **Pan and zoom** with mouse drag + scroll wheel; zoom toward cursor position
+- **Quick-jump buttons** to Paris / London / New York / Tokyo / Singapore / Sydney / Full World
+- **Attribution overlay** rendered per the OSM tile usage policy
+
+**Runtime requirements (Linux):**
+- Internet access to `tile.openstreetmap.org` for the first view of each tile (subsequent views serve from disk cache)
+- No native libraries beyond what the main `OpenMaui.Controls.Linux` package already requires
+
+**Cross-platform note:** Like MediaDemo, the same `MauiProgram.cs` works on every platform — the Linux opt-in lines are no-ops elsewhere where the platform-native Maps backend serves the same control:
+
+```csharp
+// MapsDemo/MauiProgram.cs
+builder
+    .UseMauiApp<App>()
+    .UseMauiMaps()       // upstream MAUI Maps
+    .UseLinux()          // base Linux handlers
+    .UseLinuxMaps();     // Linux Maps backend (OSM); no-op elsewhere
+```
+
+**Code example — pin + route:**
+
+```xaml
+<maps:Map x:Name="Map" IsScrollEnabled="True" IsZoomEnabled="True" />
+```
+
+```csharp
+Map.Pins.Add(new Pin
+{
+    Label = "Tokyo",
+    Location = new Location(35.6762, 139.6503),
+    Type = PinType.Place,
+});
+
+var route = new Polyline { StrokeColor = Color.FromArgb("#1976D2"), StrokeWidth = 4 };
+route.Geopath.Add(new Location(55.7558, 37.6173));  // Moscow
+route.Geopath.Add(new Location(43.1198, 131.8869)); // Vladivostok
+Map.MapElements.Add(route);
+
+Map.MoveToRegion(MapSpan.FromCenterAndRadius(
+    new Location(45, 100), Distance.FromKilometers(5000)));
+```
+
+**Customizing the tile source:** OSM's tile policy throttles heavy traffic. Apps that produce significant load should swap to a self-hosted or commercial tile server by overriding `OsmTileService.Default.UrlTemplate` (uses `{z}/{x}/{y}` placeholders) early in startup.
+
+**Logging:**
+Application logs are written to `~/mapsdemo.log` for debugging.
 
 ## Project Structure
 

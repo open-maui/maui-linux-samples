@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:maps="http://schemas.microsoft.com/dotnet/2021/maui/maps"
+             x:Class="MapsDemo.Pages.MapsPage"
+             BackgroundColor="{AppThemeBinding Light={StaticResource PageBackgroundLight}, Dark={StaticResource PageBackgroundDark}}"
+             Title="Maps Demo">
+
+    <Grid RowDefinitions="*,Auto,Auto" Padding="16" RowSpacing="12">
+
+        <!-- The Map. Microsoft.Maui.Controls.Maps.Map renders via
+             OpenMaui's LinuxMapHandler on Linux (OSM raster tiles in Skia),
+             via Apple Maps on iOS/macCatalyst, Google Maps on Android, and
+             Bing on Windows — same XAML across platforms. -->
+        <Border Grid.Row="0" StrokeThickness="0">
+            <maps:Map x:Name="Map"
+                      IsScrollEnabled="True"
+                      IsZoomEnabled="True"
+                      IsShowingUser="False" />
+        </Border>
+
+        <!-- Quick-jump city buttons -->
+        <ScrollView Grid.Row="1" Orientation="Horizontal">
+            <HorizontalStackLayout Spacing="8">
+                <Button x:Name="ParisBtn"        Text="Paris"        Style="{StaticResource LocationButton}" Clicked="OnGoParis" />
+                <Button x:Name="LondonBtn"      Text="London"      Style="{StaticResource LocationButton}" Clicked="OnGoLondon" />
+                <Button x:Name="NewYorkBtn"     Text="New York"     Style="{StaticResource LocationButton}" Clicked="OnGoNewYork" />
+                <Button x:Name="TokyoBtn"       Text="Tokyo"       Style="{StaticResource LocationButton}" Clicked="OnGoTokyo" />
+                <Button x:Name="SingaporeBtn"  Text="Singapore"   Style="{StaticResource LocationButton}" Clicked="OnGoSingapore" />
+                <Button x:Name="SydneyBtn"     Text="Sydney"      Style="{StaticResource LocationButton}" Clicked="OnGoSydney" />
+                <Button x:Name="WorldBtn"     Text="Full World"   Style="{StaticResource LocationButton}" Clicked="OnGoWorld" />
+            </HorizontalStackLayout>
+        </ScrollView>
+
+        <!-- Status / instructions -->
+        <Label Grid.Row="2"
+               x:Name="StatusLabel"
+               FontSize="12"
+               TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+               HorizontalOptions="Center"
+               Text="Drag to pan · scroll to zoom · pins mark major Asian capitals · route follows the Trans-Siberian Railway" />
+    </Grid>
+
+</ContentPage>
