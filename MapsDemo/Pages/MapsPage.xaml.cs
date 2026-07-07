@@ -87,6 +87,80 @@ public partial class MapsPage : ContentPage
             Distance.FromKilometers(5000)));
     }
 
+    // --- Overlay toggles ---
+    // Polygon and Circle are built once and added/removed from Map.MapElements
+    // at runtime, exercising LinuxMapHandler's Elements change-notification
+    // path (the mapper re-runs on every collection mutation).
+    private Polygon? _parkPolygon;
+    private Circle? _cityCircle;
+
+    void OnTogglePolygon(object? sender, EventArgs e)
+    {
+        if (_parkPolygon != null && Map.MapElements.Contains(_parkPolygon))
+        {
+            Map.MapElements.Remove(_parkPolygon);
+            PolygonBtn.Text = "Add Polygon";
+            StatusLabel.Text = "Central Park polygon removed";
+            return;
+        }
+
+        if (_parkPolygon == null)
+        {
+            // Central Park, Manhattan — four corners of the rectangle, closed
+            // automatically. Semi-transparent green fill + solid green stroke
+            // (Controls.Maps.Polygon → IGeoPathMapElement + IFilledMapElement).
+            _parkPolygon = new Polygon
+            {
+                FillColor = Color.FromArgb("#4D2E7D32"),
+                StrokeColor = Color.FromArgb("#2E7D32"),
+                StrokeWidth = 3,
+            };
+            foreach (var (lat, lon) in new[]
+            {
+                (40.7677, -73.9816),   // SW — Columbus Circle
+                (40.8003, -73.9580),   // NW — Frederick Douglass Circle
+                (40.7969, -73.9494),   // NE
+                (40.7642, -73.9730),   // SE — Grand Army Plaza
+            })
+            {
+                _parkPolygon.Geopath.Add(new Location(lat, lon));
+            }
+        }
+
+        Map.MapElements.Add(_parkPolygon);
+        PolygonBtn.Text = "Remove Polygon";
+        MoveTo(40.7826, -73.9656, 6);
+        StatusLabel.Text = "Polygon added over Central Park, New York";
+    }
+
+    void OnToggleCircle(object? sender, EventArgs e)
+    {
+        if (_cityCircle != null && Map.MapElements.Contains(_cityCircle))
+        {
+            Map.MapElements.Remove(_cityCircle);
+            CircleBtn.Text = "Add Circle";
+            StatusLabel.Text = "Paris circle removed";
+            return;
+        }
+
+        // 5 km circle around central Paris — Radius is a ground Distance
+        // (meters), not pixels, so it scales with zoom
+        // (Controls.Maps.Circle → ICircleMapElement).
+        _cityCircle ??= new Circle
+        {
+            Center = new Location(48.8566, 2.3522),
+            Radius = Distance.FromKilometers(5),
+            FillColor = Color.FromArgb("#40E64A19"),
+            StrokeColor = Color.FromArgb("#E64A19"),
+            StrokeWidth = 3,
+        };
+
+        Map.MapElements.Add(_cityCircle);
+        CircleBtn.Text = "Remove Circle";
+        MoveTo(48.8566, 2.3522, 15);
+        StatusLabel.Text = "5 km circle added around Paris";
+    }
+
     // --- Quick-jump handlers ---
     void OnGoParis(object? sender, EventArgs e)     => MoveTo(48.8566,   2.3522, 4000);
     void OnGoLondon(object? sender, EventArgs e)    => MoveTo(51.5074,  -0.1278, 4000);

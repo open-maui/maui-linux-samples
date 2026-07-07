@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ShellDemo.DragDropPage"
+             Title="Drag &amp; Drop"
+             BackgroundColor="{AppThemeBinding Light={StaticResource PageBackgroundLight}, Dark={StaticResource PageBackgroundDark}}">
+
+    <Grid RowDefinitions="*,Auto">
+
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Padding="20" Spacing="15">
+
+                <Label Text="Drag &amp; Drop"
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+
+                <Label Text="Native drag-and-drop between this app and the rest of the desktop (XDND on X11, wl_data_device on Wayland)."
+                       FontSize="14"
+                       TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+
+                <!-- Drop Zone Section -->
+                <BoxView Style="{StaticResource ThemedDivider}" />
+
+                <Label Text="Drop Zone"
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+
+                <Label Text="Drag text or files from another application (file manager, browser, text editor) and drop them anywhere on this window."
+                       FontSize="12"
+                       TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+
+                <Border x:Name="DropZone"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource CardBackgroundLight}, Dark={StaticResource CardBackgroundDark}}"
+                        Stroke="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource BorderDark}}"
+                        StrokeThickness="2"
+                        StrokeDashArray="6,3"
+                        Padding="20"
+                        MinimumHeightRequest="120">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="8" />
+                    </Border.StrokeShape>
+
+                    <VerticalStackLayout Spacing="8" VerticalOptions="Center">
+                        <Label x:Name="DropZoneLabel"
+                               Text="Drop text or files here"
+                               FontSize="16"
+                               HorizontalOptions="Center"
+                               TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+                        <Label x:Name="DragPositionLabel"
+                               Text=""
+                               FontSize="12"
+                               HorizontalOptions="Center"
+                               TextColor="{StaticResource PrimaryColor}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Label x:Name="DroppedTextLabel"
+                       Text="Dropped text: (none yet)"
+                       FontSize="12"
+                       LineBreakMode="WordWrap"
+                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+
+                <Label x:Name="DroppedFilesLabel"
+                       Text="Dropped files: (none yet)"
+                       FontSize="12"
+                       LineBreakMode="WordWrap"
+                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+
+                <!-- Drag Source Section -->
+                <BoxView Style="{StaticResource ThemedDivider}" />
+
+                <Label Text="Drag Source"
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+
+                <Entry x:Name="DragTextEntry"
+                       Text="Hello from OpenMaui!"
+                       Placeholder="Text to drag..."
+                       Style="{StaticResource ThemedEntry}" />
+
+                <Button x:Name="DragSourceButton"
+                        Text="Press and HOLD to drag the text above"
+                        Style="{StaticResource PrimaryButton}"
+                        Pressed="OnDragSourcePressed" />
+
+                <Label x:Name="DragStartResultLabel"
+                       FontSize="12"
+                       TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+
+                <Border BackgroundColor="{AppThemeBinding Light=#E3F2FD, Dark=#1A3A5C}"
+                        StrokeThickness="0"
+                        Padding="15">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="8" />
+                    </Border.StrokeShape>
+                    <Label Text="The drag starts on pointer PRESS (not click/release): keep the mouse button held, move the pointer over another application, and release to drop. On Wayland the compositor only allows a drag to begin during the button-press gesture, so a normal Clicked handler would fire too late."
+                           FontSize="12"
+                           LineBreakMode="WordWrap"
+                           TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                </Border>
+
+                <!-- Clipboard / Primary Selection Section -->
+                <BoxView Style="{StaticResource ThemedDivider}" />
+
+                <Label Text="Clipboard &amp; Primary Selection"
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+
+                <Entry x:Name="ClipboardEntry"
+                       Placeholder="Text to copy / paste..."
+                       Style="{StaticResource ThemedEntry}" />
+
+                <HorizontalStackLayout Spacing="10">
+                    <Button Text="Copy to clipboard"
+                            Style="{StaticResource PrimaryButton}"
+                            Clicked="OnCopyToClipboardClicked" />
+                    <Button Text="Paste from clipboard"
+                            Style="{StaticResource SecondaryButton}"
+                            Clicked="OnPasteFromClipboardClicked" />
+                </HorizontalStackLayout>
+
+                <HorizontalStackLayout Spacing="10">
+                    <Button Text="Set primary selection"
+                            Style="{StaticResource SuccessButton}"
+                            Clicked="OnSetPrimarySelectionClicked" />
+                    <Button Text="Get primary selection"
+                            Style="{StaticResource SecondaryButton}"
+                            Clicked="OnGetPrimarySelectionClicked" />
+                </HorizontalStackLayout>
+
+                <Label x:Name="ClipboardResultLabel"
+                       FontSize="12"
+                       LineBreakMode="WordWrap"
+                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+
+                <Label Text="Hint: Select text in any Entry, then middle-click paste elsewhere (primary selection)."
+                       FontSize="12"
+                       TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Event Log Panel -->
+        <Border Grid.Row="1"
+                BackgroundColor="{AppThemeBinding Light=#F5F5F5, Dark=#2C2C2C}"
+                StrokeThickness="0"
+                Padding="10">
+            <VerticalStackLayout>
+                <Label Text="Drag Event Log:"
+                       FontSize="12"
+                       FontAttributes="Bold"
+                       TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                <ScrollView HeightRequest="120">
+                    <Label x:Name="EventLogLabel"
+                           Text="Drag events will appear here..."
+                           FontSize="11"
+                           TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
+                           LineBreakMode="WordWrap" />
+                </ScrollView>
+            </VerticalStackLayout>
+        </Border>
+
+    </Grid>
+</ContentPage>

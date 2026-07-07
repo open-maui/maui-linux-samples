@@ -6,7 +6,7 @@
              BackgroundColor="{AppThemeBinding Light={StaticResource PageBackgroundLight}, Dark={StaticResource PageBackgroundDark}}"
              Title="Maps Demo">
 
-    <Grid RowDefinitions="*,Auto,Auto" Padding="16" RowSpacing="12">
+    <Grid RowDefinitions="*,Auto,Auto,Auto" Padding="16" RowSpacing="12">
 
         <!-- The Map. Microsoft.Maui.Controls.Maps.Map renders via
              OpenMaui's LinuxMapHandler on Linux (OSM raster tiles in Skia),
@@ -33,13 +33,21 @@
             </HorizontalStackLayout>
         </ScrollView>
 
+        <!-- Overlay toggles: add/remove a filled polygon (Central Park) and a
+             circle (5 km around Paris) at runtime, exercising the MapElements
+             change-notification path in LinuxMapHandler. -->
+        <HorizontalStackLayout Grid.Row="2" Spacing="8">
+            <Button x:Name="PolygonBtn" Text="Add Polygon" Style="{StaticResource LocationButton}" BackgroundColor="{StaticResource ButtonColor}" Clicked="OnTogglePolygon" />
+            <Button x:Name="CircleBtn"  Text="Add Circle"  Style="{StaticResource LocationButton}" BackgroundColor="{StaticResource ButtonColor}" Clicked="OnToggleCircle" />
+        </HorizontalStackLayout>
+
         <!-- Status / instructions -->
-        <Label Grid.Row="2"
+        <Label Grid.Row="3"
                x:Name="StatusLabel"
                FontSize="12"
                TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"
                HorizontalOptions="Center"
-               Text="Drag to pan · scroll to zoom · pins mark major Asian capitals · route follows the Trans-Siberian Railway" />
+               Text="Drag to pan · scroll to zoom · pins mark major Asian capitals · route follows the Trans-Siberian Railway · toggle polygon/circle overlays below" />
     </Grid>
 
 </ContentPage>

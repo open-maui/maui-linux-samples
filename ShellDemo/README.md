@@ -11,6 +11,8 @@ A comprehensive control showcase application demonstrating all OpenMaui Linux co
 - **Progress Indicators** - ProgressBar and ActivityIndicator with animations
 - **Grid Layouts** - Complex multi-column/row layouts
 - **Event Logging** - Real-time event feedback panel
+- **Drag & Drop** - Native XDND / Wayland data-device drag-and-drop, plus clipboard and primary selection
+- **Desktop Integration** - System tray icon (StatusNotifierItem / XEmbed) and CUPS printing
 
 ## Pages
 
@@ -18,12 +20,14 @@ A comprehensive control showcase application demonstrating all OpenMaui Linux co
 |------|----------------------|
 | **Home** | Welcome screen, navigation overview |
 | **Buttons** | Button styles, colors, states, click/press/release events |
-| **Text Input** | Entry, Editor, SearchBar, password fields, keyboard types |
+| **Text Input** | Entry, Editor, SearchBar, password fields, keyboard types, IME surrounding-text test surface |
 | **Selection** | CheckBox, Switch, Slider with colors and states |
 | **Pickers** | Picker, DatePicker, TimePicker with styling |
 | **Lists** | CollectionView with selection, custom items |
 | **Progress** | ProgressBar, ActivityIndicator, animated demos |
 | **Grids** | Grid layouts with row/column definitions |
+| **Drag & Drop** | Drop zone with event log, TryStartDrag drag source, clipboard + primary selection |
+| **Tray & Printing** | TrayIcon show/hide/update with menu actions, printer enumeration, GTK print dialog, Skia test page via CUPS |
 | **About** | App information |
 
 ## Architecture
@@ -42,6 +46,8 @@ ShellDemo/
     ├── ListsPage.cs            # CollectionView demos
     ├── ProgressPage.cs         # ProgressBar, ActivityIndicator
     ├── GridsPage.cs            # Grid layout demos
+    ├── DragDropPage.cs         # Drag & drop, clipboard, primary selection
+    ├── DesktopPage.cs          # Tray icon and CUPS printing
     ├── DetailPage.cs           # Push navigation target
     └── AboutPage.cs            # About information
 ```
@@ -82,6 +88,7 @@ public class AppShell : Shell
 - Email keyboard type
 - SearchBar with search button
 - Multi-line Editor
+- IME surrounding-text test surface (type mid-sentence with a CJK IME active)
 - Keyboard shortcuts guide
 
 ### Selection Page
@@ -107,6 +114,20 @@ public class AppShell : Shell
 - Colored activity indicators
 - Interactive slider-controlled progress
 - Animated progress simulation
+
+### Drag & Drop Page
+- Drop zone accepting text and files from other applications (XDND on X11, wl_data_device on Wayland)
+- Visual feedback with pointer coordinates during DragEnter/DragOver, and a running event log
+- Drag source: press-and-hold button starts `DragDropService.Default.TryStartDrag(text)` (must begin during the button-press gesture — required on Wayland)
+- Clipboard copy/paste and primary-selection set/get (middle-click paste buffer)
+
+### Tray & Printing Page
+- `TrayIconService.IsAvailable` probe with Show / Hide / Update
+- Editable title and tooltip, menu items updating a "last action" label, Activated counter (fires on left-click with the XEmbed backend only)
+- Tray PNG rendered at runtime with SkiaSharp (no packaged asset needed)
+- `EnumeratePrintersAsync` printer list with default marker
+- `ShowPrintDialogAsync` showing the selected printer/options (or "cancelled")
+- `PrintSkiaPagesAsync` one-page Skia test pattern with `PrintJobResult.Status` feedback
 
 ## Building and Running
 

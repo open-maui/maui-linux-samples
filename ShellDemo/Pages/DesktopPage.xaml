@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ShellDemo.DesktopPage"
+             Title="Tray &amp; Printing"
+             BackgroundColor="{AppThemeBinding Light={StaticResource PageBackgroundLight}, Dark={StaticResource PageBackgroundDark}}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <Label Text="Desktop Integration"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+
+            <Label Text="System tray icon (StatusNotifierItem / XEmbed) and CUPS printing."
+                   FontSize="14"
+                   TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+
+            <!-- Tray Icon Section -->
+            <Border Style="{StaticResource ThemedCard}">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="System Tray Icon"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+
+                    <Label x:Name="TrayAvailabilityLabel"
+                           FontSize="12"
+                           TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+
+                    <Entry x:Name="TrayTitleEntry"
+                           Text="OpenMaui Demo"
+                           Placeholder="Tray icon title..."
+                           Style="{StaticResource ThemedEntry}" />
+
+                    <Entry x:Name="TrayTooltipEntry"
+                           Text="ShellDemo tray icon"
+                           Placeholder="Tray icon tooltip..."
+                           Style="{StaticResource ThemedEntry}" />
+
+                    <HorizontalStackLayout Spacing="10">
+                        <Button Text="Show"
+                                Style="{StaticResource SuccessButton}"
+                                Clicked="OnTrayShowClicked" />
+                        <Button Text="Hide"
+                                Style="{StaticResource DangerButton}"
+                                Clicked="OnTrayHideClicked" />
+                        <Button Text="Update"
+                                Style="{StaticResource PrimaryButton}"
+                                Clicked="OnTrayUpdateClicked" />
+                    </HorizontalStackLayout>
+
+                    <Label x:Name="TrayStatusLabel"
+                           Text="Tray icon not shown yet."
+                           FontSize="12"
+                           TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+
+                    <Label x:Name="TrayLastActionLabel"
+                           Text="Last menu action: (none)"
+                           FontSize="12"
+                           TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+
+                    <Label x:Name="TrayActivatedLabel"
+                           Text="Activated fired: 0 times"
+                           FontSize="12"
+                           TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+
+                    <Label Text="Note: the Activated event fires on left-click only with the XEmbed (legacy tray) backend. StatusNotifierItem/AppIndicator trays open the menu on any click instead — use the menu items (Say Hello / Ping) to see actions arrive."
+                           FontSize="11"
+                           LineBreakMode="WordWrap"
+                           TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Printing Section -->
+            <Border Style="{StaticResource ThemedCard}">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Printing (CUPS)"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+
+                    <Label x:Name="PrintAvailabilityLabel"
+                           FontSize="12"
+                           TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+
+                    <HorizontalStackLayout Spacing="10">
+                        <Button Text="List printers"
+                                Style="{StaticResource PrimaryButton}"
+                                Clicked="OnListPrintersClicked" />
+                        <Button Text="Print dialog"
+                                Style="{StaticResource SecondaryButton}"
+                                Clicked="OnPrintDialogClicked" />
+                        <Button Text="Print test page"
+                                Style="{StaticResource SuccessButton}"
+                                Clicked="OnPrintTestPageClicked" />
+                    </HorizontalStackLayout>
+
+                    <Label x:Name="PrinterListLabel"
+                           Text="Printers: (not queried yet)"
+                           FontSize="12"
+                           LineBreakMode="WordWrap"
+                           TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+
+                    <Label x:Name="PrintDialogResultLabel"
+                           Text="Dialog result: (dialog not shown yet)"
+                           FontSize="12"
+                           LineBreakMode="WordWrap"
+                           TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+
+                    <Label x:Name="PrintJobResultLabel"
+                           Text="Print job: (nothing printed yet)"
+                           FontSize="12"
+                           LineBreakMode="WordWrap"
+                           TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+
+                    <Label Text="The test page renders a one-page Skia pattern (title, rectangle, current date) to a PDF and submits it to the printer picked in the dialog, or the system default."
+                           FontSize="11"
+                           LineBreakMode="WordWrap"
+                           TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

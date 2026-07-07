@@ -95,6 +95,18 @@
         <ShellContent ContentTemplate="{DataTemplate local:GridsPage}" />
     </FlyoutItem>
 
+    <!-- Drag & Drop -->
+    <FlyoutItem Title="Drag &amp; Drop" Route="DragDrop"
+                Icon="{AppThemeBinding Light=open_with_light.svg, Dark=open_with_dark.svg}">
+        <ShellContent ContentTemplate="{DataTemplate local:DragDropPage}" />
+    </FlyoutItem>
+
+    <!-- Tray & Printing -->
+    <FlyoutItem Title="Tray &amp; Printing" Route="Desktop"
+                Icon="{AppThemeBinding Light=print_light.svg, Dark=print_dark.svg}">
+        <ShellContent ContentTemplate="{DataTemplate local:DesktopPage}" />
+    </FlyoutItem>
+
     <!-- About -->
     <FlyoutItem Title="About" Route="About"
                 Icon="{AppThemeBinding Light=info_light.svg, Dark=info_dark.svg}">

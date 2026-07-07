@@ -87,6 +87,24 @@
                    FontSize="12"
                    TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
 
+            <!-- IME Surrounding Text -->
+            <BoxView Style="{StaticResource ThemedDivider}" />
+
+            <Label Text="IME Surrounding Text"
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+
+            <Label Text="With a CJK IME active (Pinyin/Hangul/Anthy or Fcitx5), suggestions now see surrounding text; type mid-sentence to test."
+                   FontSize="12"
+                   LineBreakMode="WordWrap"
+                   TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+
+            <Editor x:Name="ImeEditor"
+                    Text="Place the cursor in the middle of this sentence and start composing."
+                    HeightRequest="100"
+                    Style="{StaticResource ThemedEditor}" />
+
             <!-- Keyboard Shortcuts -->
             <BoxView Style="{StaticResource ThemedDivider}" />
 

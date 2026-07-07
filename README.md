@@ -41,10 +41,10 @@ This repository contains production-ready sample applications showcasing **OpenM
 | Sample | Description | Key Features |
 |--------|-------------|--------------|
 | [TodoApp](./TodoApp/) | Full-featured task manager | NavigationPage, XAML data binding, CollectionView, value converters, theme switching |
-| [ShellDemo](./ShellDemo/) | Comprehensive control showcase | Shell navigation, flyout menu, all core controls, event logging |
+| [ShellDemo](./ShellDemo/) | Comprehensive control showcase | Shell navigation, flyout menu, all core controls, event logging, drag & drop, clipboard/primary selection, system tray icon, CUPS printing |
 | [WebViewDemo](./WebViewDemo/) | Web browser with WebKitGTK | WebView, JavaScript evaluation, GTK integration, HTML rendering |
 | [MediaDemo](./MediaDemo/) | Video / audio playback via MediaElement | CommunityToolkit.Maui.MediaElement on Linux, GStreamer backend, play/pause/stop/seek/volume/mute |
-| [MapsDemo](./MapsDemo/) | OpenStreetMap map view with pins and route | Microsoft.Maui.Controls.Maps on Linux, OSM raster tile cache, Pin/Polyline overlays, pan/zoom |
+| [MapsDemo](./MapsDemo/) | OpenStreetMap map view with pins, route, and shape overlays | Microsoft.Maui.Controls.Maps on Linux, OSM raster tile cache, Pin/Polyline/Polygon/Circle overlays, pan/zoom |
 
 ## Requirements
 
@@ -302,6 +302,10 @@ A comprehensive control gallery showcasing all supported MAUI controls with Shel
 - **Real-time event logging** for all interactions
 - **Push/pop navigation** examples
 - **Theme switching** support
+- **Drag & drop** (XDND / Wayland data-device) with a drop zone, drag source, and event log
+- **Clipboard and primary selection** (middle-click paste buffer)
+- **System tray icon** (StatusNotifierItem / XEmbed) with menu actions
+- **CUPS printing**: printer enumeration, GTK print dialog, Skia-rendered test page
 
 **Navigation Structure:**
 
@@ -480,6 +484,9 @@ A map view demonstrating `Microsoft.Maui.Controls.Maps` on Linux via the **OpenM
 - **OpenStreetMap raster tiles** fetched from `tile.openstreetmap.org` and cached under `$XDG_CACHE_HOME/openmaui/osm-tiles`
 - **Six pins** placed on major Asian capitals (Tokyo, Seoul, Beijing, Hanoi, Bangkok, Singapore)
 - **Polyline overlay** tracing the Trans-Siberian Railway approximation (Moscow → Yekaterinburg → Novosibirsk → Irkutsk → Vladivostok)
+- **Polygon overlay** outlining Central Park, New York, with a semi-transparent fill and visible stroke
+- **Circle overlay** — a 5 km radius (`Distance.FromKilometers`) around central Paris, semi-transparent fill + stroke
+- **Runtime overlay toggles** — Add/Remove Polygon and Add/Remove Circle buttons mutate `Map.MapElements` on the fly, exercising the handler's element change-notification path
 - **Pan and zoom** with mouse drag + scroll wheel; zoom toward cursor position
 - **Quick-jump buttons** to Paris / London / New York / Tokyo / Singapore / Sydney / Full World
 - **Attribution overlay** rendered per the OSM tile usage policy
@@ -499,7 +506,7 @@ builder
     .UseLinuxMaps();     // Linux Maps backend (OSM); no-op elsewhere
 ```
 
-**Code example — pin + route:**
+**Code example — pin, route, polygon + circle:**
 
 ```xaml
 <maps:Map x:Name="Map" IsScrollEnabled="True" IsZoomEnabled="True" />
@@ -517,6 +524,29 @@ var route = new Polyline { StrokeColor = Color.FromArgb("#1976D2"), StrokeWidth 
 route.Geopath.Add(new Location(55.7558, 37.6173));  // Moscow
 route.Geopath.Add(new Location(43.1198, 131.8869)); // Vladivostok
 Map.MapElements.Add(route);
+
+// Filled polygon — Geopath closes automatically
+var park = new Polygon
+{
+    FillColor = Color.FromArgb("#4D2E7D32"),   // semi-transparent green
+    StrokeColor = Color.FromArgb("#2E7D32"),
+    StrokeWidth = 3,
+};
+park.Geopath.Add(new Location(40.7677, -73.9816)); // Central Park SW
+park.Geopath.Add(new Location(40.8003, -73.9580)); // NW
+park.Geopath.Add(new Location(40.7969, -73.9494)); // NE
+park.Geopath.Add(new Location(40.7642, -73.9730)); // SE
+Map.MapElements.Add(park);
+
+// Circle — Radius is a ground distance, so it scales with zoom
+Map.MapElements.Add(new Circle
+{
+    Center = new Location(48.8566, 2.3522),    // Paris
+    Radius = Distance.FromKilometers(5),
+    FillColor = Color.FromArgb("#40E64A19"),   // semi-transparent orange
+    StrokeColor = Color.FromArgb("#E64A19"),
+    StrokeWidth = 3,
+});
 
 Map.MoveToRegion(MapSpan.FromCenterAndRadius(
     new Location(45, 100), Distance.FromKilometers(5000)));
