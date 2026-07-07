@@ -41,9 +41,9 @@ export PATH="$DOTNET_ROOT:$PATH"
 
 # --- TFM detection ---
 # Prefer Debug; fall back to Release. Inside the config dir, pick the
-# newest net*.0 folder (alphabetical sort puts net10.0 ahead of net9.0,
-# but a build artifact for net10 should generally take precedence over an
-# older net9 leftover anyway).
+# highest net*.0 TFM by numeric major version (a plain glob/alphabetical
+# pick is wrong: "net10.0" sorts BEFORE "net9.0", so a stale net9 leftover
+# would win and silently launch an old build).
 config_dir=""
 for c in Debug Release; do
     if [[ -d "$script_dir/bin/$c" ]]; then
@@ -57,9 +57,11 @@ if [[ -z "$config_dir" ]]; then
 fi
 
 tfm_dir=""
+best=0
 for d in "$config_dir"/net*.0; do
     [[ -d "$d" ]] || continue
-    tfm_dir="$d"
+    v="${d##*/net}"; v="${v%%.*}"
+    if (( v > best )); then best=$v; tfm_dir="$d"; fi
 done
 if [[ -z "$tfm_dir" ]]; then
     echo "error: no net*.0 folder under $config_dir. Run 'dotnet build' first." >&2
