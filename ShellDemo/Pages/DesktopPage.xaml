@@ -70,6 +70,11 @@
                            FontSize="11"
                            LineBreakMode="WordWrap"
                            TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+
+                    <Label Text="Note: Hide sets the icon Passive. On GNOME it hides fully; on KDE Plasma it moves to the tray's hidden/expander area (Plasma keeps StatusNotifierItems until the app exits). To fully hide it on KDE, right-click the tray → Configure → set this entry to Hidden."
+                           FontSize="11"
+                           LineBreakMode="WordWrap"
+                           TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
                 </VerticalStackLayout>
             </Border>
 
