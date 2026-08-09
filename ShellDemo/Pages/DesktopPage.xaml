@@ -127,6 +127,35 @@
                 </VerticalStackLayout>
             </Border>
 
+            <!-- Live Visual Tree Section -->
+            <Border Style="{StaticResource ThemedCard}">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Live Visual Tree (debug)"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+
+                    <Label Text="Overlay draws over the running UI. Toggle it, turn on all outlines, or enter Pick mode and click any element to select it. Dump writes the tree to the log (~/shelldemo.log)."
+                           FontSize="12"
+                           LineBreakMode="WordWrap"
+                           TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+
+                    <HorizontalStackLayout Spacing="10">
+                        <Button Text="Toggle Overlay" Style="{StaticResource PrimaryButton}" Clicked="OnToggleInspector" />
+                        <Button Text="All Outlines" Style="{StaticResource PrimaryButton}" Clicked="OnToggleOutlines" />
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout Spacing="10">
+                        <Button Text="Pick Element" Style="{StaticResource SuccessButton}" Clicked="OnPickElement" />
+                        <Button Text="Dump Tree" Style="{StaticResource PrimaryButton}" Clicked="OnDumpTree" />
+                    </HorizontalStackLayout>
+
+                    <Label x:Name="InspectorStatusLabel"
+                           Text="Inspector: off"
+                           FontSize="12"
+                           TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                </VerticalStackLayout>
+            </Border>
+
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

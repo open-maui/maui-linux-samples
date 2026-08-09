@@ -86,6 +86,19 @@
                         Style="{StaticResource PrimaryButton}"
                         Pressed="OnDragSourcePressed" />
 
+                <!-- Rich payloads: press-and-hold, then drop onto a file
+                     manager or image viewer. Files travel as text/uri-list,
+                     the image as image/png (large payloads use X11 INCR). -->
+                <Button x:Name="DragFileButton"
+                        Text="Press and HOLD to drag a text file"
+                        Style="{StaticResource PrimaryButton}"
+                        Pressed="OnDragFilePressed" />
+
+                <Button x:Name="DragImageButton"
+                        Text="Press and HOLD to drag a PNG image"
+                        Style="{StaticResource PrimaryButton}"
+                        Pressed="OnDragImagePressed" />
+
                 <Label x:Name="DragStartResultLabel"
                        FontSize="12"
                        TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />

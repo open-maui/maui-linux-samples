@@ -1,6 +1,7 @@
 // DesktopPage - System tray icon and CUPS printing demos
 
 using Microsoft.Maui.Controls;
+using Microsoft.Maui.Platform.Linux.Diagnostics;
 using Microsoft.Maui.Platform.Linux.Services;
 using SkiaSharp;
 
@@ -259,5 +260,36 @@ public partial class DesktopPage : ContentPage
         };
         canvas.DrawRect(SKRect.Create(60, 170, 492, 220), rectStroke);
         canvas.DrawText("If you can read this, PrintSkiaPagesAsync works.", 80, 290, SKTextAlign.Left, bodyFont, black);
+    }
+
+    // --- Live Visual Tree inspector ----------------------------------------
+    // The default Ctrl+Shift+D hotkey is X11-only (global-hotkey service), so
+    // these buttons drive the inspector directly — they work on Wayland too.
+
+    private void OnToggleInspector(object? sender, EventArgs e)
+    {
+        VisualTreeInspector.Instance.Toggle();
+        InspectorStatusLabel.Text = $"Inspector: {(VisualTreeInspector.Instance.IsEnabled ? "on" : "off")}";
+    }
+
+    private void OnToggleOutlines(object? sender, EventArgs e)
+    {
+        var inspector = VisualTreeInspector.Instance;
+        inspector.ShowAllOutlines = !inspector.ShowAllOutlines;
+        if (!inspector.IsEnabled)
+            inspector.Enable();
+        InspectorStatusLabel.Text = $"All outlines: {(inspector.ShowAllOutlines ? "on" : "off")}";
+    }
+
+    private void OnPickElement(object? sender, EventArgs e)
+    {
+        VisualTreeInspector.Instance.EnablePickMode();
+        InspectorStatusLabel.Text = "Pick mode: click any element to select it (Esc to exit).";
+    }
+
+    private void OnDumpTree(object? sender, EventArgs e)
+    {
+        Console.WriteLine(VisualTreeInspector.Instance.DumpTree());
+        InspectorStatusLabel.Text = "Tree dumped to ~/shelldemo.log";
     }
 }
