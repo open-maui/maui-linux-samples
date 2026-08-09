@@ -3,6 +3,7 @@
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Graphics;
 using Microsoft.Maui.Platform.Linux.Services;
+using SkiaSharp;
 using LinuxDragEventArgs = Microsoft.Maui.Platform.Linux.Services.DragEventArgs;
 using LinuxDropEventArgs = Microsoft.Maui.Platform.Linux.Services.DropEventArgs;
 using MauiClipboard = Microsoft.Maui.ApplicationModel.DataTransfer.Clipboard;
@@ -134,6 +135,65 @@ public partial class DragDropPage : ContentPage
             ? "TryStartDrag: true — keep the button held and drop onto another app."
             : "TryStartDrag: false (backend not ready or a drag is already in flight).";
         LogEvent($"TryStartDrag(\"{Truncate(text, 20)}\") => {started}");
+    }
+
+    private void OnDragFilePressed(object? sender, EventArgs e)
+    {
+        // Write a throwaway file and drag it as text/uri-list. Drop it onto a
+        // file manager (Dolphin/Nautilus) or a text editor.
+        var path = Path.Combine(Path.GetTempPath(), "openmaui-drag-sample.txt");
+        try
+        {
+            File.WriteAllText(path, "Dragged out of OpenMaui ShellDemo.\n");
+        }
+        catch (Exception ex)
+        {
+            DragStartResultLabel.Text = $"Could not create sample file: {ex.Message}";
+            return;
+        }
+
+        var started = DragDropService.Default.TryStartDrag(DragPayload.FromFiles(path));
+        DragStartResultLabel.Text = started
+            ? $"Dragging file {path} — hold and drop onto a file manager."
+            : "TryStartDrag(file): false (backend not ready or a drag is in flight).";
+        LogEvent($"TryStartDrag(file) => {started}");
+    }
+
+    private void OnDragImagePressed(object? sender, EventArgs e)
+    {
+        // Render a small PNG in memory and drag it as image/png. Drop it onto
+        // an image viewer, a chat app, or GIMP.
+        byte[] png;
+        try
+        {
+            png = RenderSamplePng();
+        }
+        catch (Exception ex)
+        {
+            DragStartResultLabel.Text = $"Could not render image: {ex.Message}";
+            return;
+        }
+
+        var started = DragDropService.Default.TryStartDrag(DragPayload.FromImage(png, "image/png"));
+        DragStartResultLabel.Text = started
+            ? $"Dragging a {png.Length}-byte PNG — hold and drop onto an image viewer."
+            : "TryStartDrag(image): false (backend not ready or a drag is in flight).";
+        LogEvent($"TryStartDrag(image, {png.Length}B) => {started}");
+    }
+
+    private static byte[] RenderSamplePng()
+    {
+        using var bitmap = new SKBitmap(240, 120);
+        using (var canvas = new SKCanvas(bitmap))
+        {
+            canvas.Clear(new SKColor(0x21, 0x96, 0xF3));
+            using var paint = new SKPaint { Color = SKColors.White, IsAntialias = true };
+            using var font = new SKFont { Size = 28 };
+            canvas.DrawText("OpenMaui", 24, 70, SKTextAlign.Left, font, paint);
+        }
+        using var image = SKImage.FromBitmap(bitmap);
+        using var data = image.Encode(SKEncodedImageFormat.Png, 100);
+        return data.ToArray();
     }
 
     // --- Clipboard / primary selection --------------------------------------

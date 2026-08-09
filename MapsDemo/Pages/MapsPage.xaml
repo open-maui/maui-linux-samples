@@ -6,7 +6,7 @@
              BackgroundColor="{AppThemeBinding Light={StaticResource PageBackgroundLight}, Dark={StaticResource PageBackgroundDark}}"
              Title="Maps Demo">
 
-    <Grid RowDefinitions="*,Auto,Auto,Auto" Padding="16" RowSpacing="12">
+    <Grid RowDefinitions="*,Auto,Auto,Auto,Auto" Padding="16" RowSpacing="12">
 
         <!-- The Map. Microsoft.Maui.Controls.Maps.Map renders via
              OpenMaui's LinuxMapHandler on Linux (OSM raster tiles in Skia),
@@ -19,8 +19,17 @@
                       IsShowingUser="False" />
         </Border>
 
+        <!-- Layer switcher: sets Map.MapType, which LinuxMapHandler maps onto
+             SkiaMap.LayerType — Street uses OSM raster, Satellite/Hybrid use the
+             keyless Esri sources (Hybrid stacks a labels overlay on satellite). -->
+        <HorizontalStackLayout Grid.Row="1" Spacing="8">
+            <Button x:Name="StreetBtn"    Text="Street"    Style="{StaticResource LocationButton}" Clicked="OnLayerStreet" />
+            <Button x:Name="SatelliteBtn" Text="Satellite" Style="{StaticResource LocationButton}" Clicked="OnLayerSatellite" />
+            <Button x:Name="HybridBtn"    Text="Hybrid"    Style="{StaticResource LocationButton}" Clicked="OnLayerHybrid" />
+        </HorizontalStackLayout>
+
         <!-- Quick-jump city buttons -->
-        <ScrollView Grid.Row="1" Orientation="Horizontal">
+        <ScrollView Grid.Row="2" Orientation="Horizontal">
             <HorizontalStackLayout Spacing="8">
                 <Button x:Name="ParisBtn"        Text="Paris"        Style="{StaticResource LocationButton}" Clicked="OnGoParis" />
                 <Button x:Name="LondonBtn"      Text="London"      Style="{StaticResource LocationButton}" Clicked="OnGoLondon" />
@@ -36,13 +45,13 @@
         <!-- Overlay toggles: add/remove a filled polygon (Central Park) and a
              circle (5 km around Paris) at runtime, exercising the MapElements
              change-notification path in LinuxMapHandler. -->
-        <HorizontalStackLayout Grid.Row="2" Spacing="8">
+        <HorizontalStackLayout Grid.Row="3" Spacing="8">
             <Button x:Name="PolygonBtn" Text="Add Polygon" Style="{StaticResource LocationButton}" BackgroundColor="{StaticResource ButtonColor}" Clicked="OnTogglePolygon" />
             <Button x:Name="CircleBtn"  Text="Add Circle"  Style="{StaticResource LocationButton}" BackgroundColor="{StaticResource ButtonColor}" Clicked="OnToggleCircle" />
         </HorizontalStackLayout>
 
         <!-- Status / instructions -->
-        <Label Grid.Row="3"
+        <Label Grid.Row="4"
                x:Name="StatusLabel"
                FontSize="12"
                TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}"

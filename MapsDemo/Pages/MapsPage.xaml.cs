@@ -88,6 +88,18 @@ public partial class MapsPage : ContentPage
     }
 
     // --- Overlay toggles ---
+    // Layer switcher: Map.MapType flows through LinuxMapHandler.MapMapType to
+    // SkiaMap.LayerType (Street = OSM raster, Satellite/Hybrid = keyless Esri).
+    void OnLayerStreet(object? sender, EventArgs e) => SetLayer(MapType.Street, "Street (OpenStreetMap)");
+    void OnLayerSatellite(object? sender, EventArgs e) => SetLayer(MapType.Satellite, "Satellite (Esri World Imagery)");
+    void OnLayerHybrid(object? sender, EventArgs e) => SetLayer(MapType.Hybrid, "Hybrid (satellite + labels)");
+
+    void SetLayer(MapType type, string label)
+    {
+        Map.MapType = type;
+        StatusLabel.Text = $"Layer: {label}";
+    }
+
     // Polygon and Circle are built once and added/removed from Map.MapElements
     // at runtime, exercising LinuxMapHandler's Elements change-notification
     // path (the mapper re-runs on every collection mutation).
