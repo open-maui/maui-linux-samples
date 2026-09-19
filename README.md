@@ -457,7 +457,7 @@ builder
 ```xaml
 <toolkit:MediaElement x:Name="Player"
                       Aspect="AspectFit"
-                      Source="https://download.blender.org/durian/trailer/sintel_trailer-720p.mp4"
+                      Source="https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_1MB.mp4"
                       Volume="0.8" />
 ```
 
