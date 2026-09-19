@@ -262,6 +262,60 @@ public partial class DesktopPage : ContentPage
         canvas.DrawText("If you can read this, PrintSkiaPagesAsync works.", 80, 290, SKTextAlign.Left, bodyFont, black);
     }
 
+    // --- Multi-window --------------------------------------------------------
+
+    private int _windowCounter;
+    private readonly List<Microsoft.Maui.Controls.Window> _extraWindows = new();
+
+    private void OnOpenWindowClicked(object? sender, EventArgs e)
+    {
+        _windowCounter++;
+        int n = _windowCounter;
+        int clicks = 0;
+        var clickButton = new Button { Text = "Click me — clicks: 0" };
+        // Updating the button's own text proves the click routed to THIS
+        // window's tree and that its render surface repaints independently.
+        clickButton.Clicked += (_, _) => clickButton.Text = $"Click me — clicks: {++clicks}";
+
+        var page = new ContentPage
+        {
+            Title = $"Second Window #{n}",
+            Content = new VerticalStackLayout
+            {
+                Padding = 24,
+                Spacing = 12,
+                Children =
+                {
+                    new Label { Text = $"Secondary window #{n}", FontSize = 20, FontAttributes = FontAttributes.Bold },
+                    new Label { Text = "This window has its own render surface, input, and focus. Type below to verify per-window input:", FontSize = 13, LineBreakMode = LineBreakMode.WordWrap },
+                    new Entry { Placeholder = "Type here — input routes to THIS window" },
+                    clickButton,
+                }
+            }
+        };
+
+        var window = new Microsoft.Maui.Controls.Window(page) { Title = $"ShellDemo — Window #{n}", Width = 520, Height = 360 };
+        Application.Current?.OpenWindow(window);
+        _extraWindows.Add(window);
+        UpdateWindowCount();
+    }
+
+    private void OnCloseNewestWindowClicked(object? sender, EventArgs e)
+    {
+        if (_extraWindows.Count == 0)
+        {
+            WindowsStatusLabel.Text = "No secondary windows to close.";
+            return;
+        }
+        var newest = _extraWindows[^1];
+        _extraWindows.RemoveAt(_extraWindows.Count - 1);
+        Application.Current?.CloseWindow(newest);
+        UpdateWindowCount();
+    }
+
+    private void UpdateWindowCount() =>
+        WindowsStatusLabel.Text = $"Windows open: {1 + _extraWindows.Count}";
+
     // --- Live Visual Tree inspector ----------------------------------------
     // The default Ctrl+Shift+D hotkey is X11-only (global-hotkey service), so
     // these buttons drive the inspector directly — they work on Wayland too.

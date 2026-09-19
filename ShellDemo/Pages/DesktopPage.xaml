@@ -127,6 +127,31 @@
                 </VerticalStackLayout>
             </Border>
 
+            <!-- Multi-Window Section -->
+            <Border Style="{StaticResource ThemedCard}">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Multi-Window"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+
+                    <Label Text="Opens additional top-level windows via Application.OpenWindow. Each window has its own render surface, input routing, and focus. Closing this (primary) window keeps the app alive while secondaries remain; the app exits when the last window closes."
+                           FontSize="12"
+                           LineBreakMode="WordWrap"
+                           TextColor="{AppThemeBinding Light={StaticResource TextSecondaryLight}, Dark={StaticResource TextSecondaryDark}}" />
+
+                    <HorizontalStackLayout Spacing="10">
+                        <Button Text="Open Second Window" Style="{StaticResource PrimaryButton}" Clicked="OnOpenWindowClicked" />
+                        <Button Text="Close Newest" Style="{StaticResource DangerButton}" Clicked="OnCloseNewestWindowClicked" />
+                    </HorizontalStackLayout>
+
+                    <Label x:Name="WindowsStatusLabel"
+                           Text="Windows open: 1"
+                           FontSize="12"
+                           TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark={StaticResource TextPrimaryDark}}" />
+                </VerticalStackLayout>
+            </Border>
+
             <!-- Live Visual Tree Section -->
             <Border Style="{StaticResource ThemedCard}">
                 <VerticalStackLayout Spacing="10">

@@ -11,7 +11,7 @@
     <ApplicationTitle>OpenMaui Media Demo</ApplicationTitle>
     <ApplicationId>com.openmaui.mediademo</ApplicationId>
     <ApplicationVersion>10.0.0</ApplicationVersion>
-    <Version>10.0.0</Version>
+    <Version>10.0.101</Version>
 
     <SingleProject>true</SingleProject>
     <EnableDefaultXamlItems>true</EnableDefaultXamlItems>
@@ -30,7 +30,7 @@
 
   <!-- Cross-platform: MediaElement control + interface -->
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Maui.MediaElement" Version="9.0.0" />
+    <PackageReference Include="CommunityToolkit.Maui.MediaElement" Version="10.0.0" />
   </ItemGroup>
 
   <!-- OpenMaui Linux Platform - Local development (ProjectReference) -->

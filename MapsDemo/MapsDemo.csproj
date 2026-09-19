@@ -11,7 +11,7 @@
     <ApplicationTitle>OpenMaui Maps Demo</ApplicationTitle>
     <ApplicationId>com.openmaui.mapsdemo</ApplicationId>
     <ApplicationVersion>10.0.0</ApplicationVersion>
-    <Version>10.0.0</Version>
+    <Version>10.0.101</Version>
 
     <SingleProject>true</SingleProject>
     <EnableDefaultXamlItems>true</EnableDefaultXamlItems>
