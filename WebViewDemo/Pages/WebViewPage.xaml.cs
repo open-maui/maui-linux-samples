@@ -14,7 +14,11 @@ public partial class WebViewPage : ContentPage
         InitializeComponent();
 
         // Set initial URL
-        MainWebView.Source = new UrlWebViewSource { Url = "https://dotnet.microsoft.com" };
+        // WEBVIEWDEMO_URL overrides the start page (handy for local test pages).
+        var startUrl = Environment.GetEnvironmentVariable("WEBVIEWDEMO_URL");
+        if (string.IsNullOrWhiteSpace(startUrl)) startUrl = "https://dotnet.microsoft.com";
+        UrlEntry.Text = startUrl;
+        MainWebView.Source = new UrlWebViewSource { Url = startUrl };
 
         // Configure URL entry to select all on double-click (like a browser address bar)
         EntryExtensions.SetSelectAllOnDoubleClick(UrlEntry, true);
