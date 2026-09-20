@@ -53,6 +53,12 @@
         <ShellContent ContentTemplate="{DataTemplate local:HomePage}" />
     </FlyoutItem>
 
+    <!-- Typography -->
+    <FlyoutItem Title="Typography" Route="Typography"
+                Icon="{AppThemeBinding Light=edit_note_light.svg, Dark=edit_note_dark.svg}">
+        <ShellContent ContentTemplate="{DataTemplate local:TypographyPage}" />
+    </FlyoutItem>
+
     <!-- Buttons -->
     <FlyoutItem Title="Buttons" Route="Buttons"
                 Icon="{AppThemeBinding Light=smart_button_light.svg, Dark=smart_button_dark.svg}">
