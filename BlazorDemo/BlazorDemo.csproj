@@ -1,0 +1,66 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+    <!-- Application Info -->
+    <ApplicationTitle>OpenMaui Blazor Demo</ApplicationTitle>
+    <ApplicationId>com.openmaui.blazordemo</ApplicationId>
+    <ApplicationVersion>10.0.0</ApplicationVersion>
+    <Version>10.0.101</Version>
+
+    <SingleProject>true</SingleProject>
+    <EnableDefaultXamlItems>true</EnableDefaultXamlItems>
+    <!-- Razor SDK static web asset pipeline targets ASP.NET hosting; the
+         BlazorWebView serves wwwroot from disk through its file provider. -->
+    <StaticWebAssetsEnabled>false</StaticWebAssetsEnabled>
+  </PropertyGroup>
+
+  <!-- Non-Linux platforms: Use official MAUI workload -->
+  <PropertyGroup Condition="!$([MSBuild]::IsOSPlatform('Linux'))">
+    <UseMaui>true</UseMaui>
+    <TargetFrameworks>net10.0-android;net10.0-ios;net10.0-maccatalyst;net10.0-windows10.0.19041.0</TargetFrameworks>
+  </PropertyGroup>
+
+  <!-- Linux: Use OpenMaui -->
+  <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('Linux'))">
+    <RuntimeIdentifiers>linux-x64;linux-arm64</RuntimeIdentifiers>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="10.0.101" />
+  </ItemGroup>
+
+  <!-- OpenMaui Linux Platform - Local development (ProjectReference) -->
+  <ItemGroup Condition="$([MSBuild]::IsOSPlatform('Linux')) AND Exists('../../maui-linux/OpenMaui.Controls.Linux.csproj') AND '$(UsePackageReference)' != 'true'">
+    <ProjectReference Include="../../maui-linux/OpenMaui.Controls.Linux.csproj" />
+    <ProjectReference Include="../../maui-linux/Blazor/OpenMaui.Controls.Linux.Blazor.csproj" />
+  </ItemGroup>
+
+  <!-- OpenMaui Linux Platform - CI/CD builds (PackageReference) -->
+  <ItemGroup Condition="$([MSBuild]::IsOSPlatform('Linux')) AND (!Exists('../../maui-linux/OpenMaui.Controls.Linux.csproj') OR '$(UsePackageReference)' == 'true')">
+    <PackageReference Include="OpenMaui.Controls.Linux" Version="*" />
+    <PackageReference Include="OpenMaui.Controls.Linux.Blazor" Version="*" />
+  </ItemGroup>
+
+  <!-- XAML Files -->
+  <ItemGroup>
+    <MauiXaml Update="**/*.xaml" />
+  </ItemGroup>
+
+  <!-- Blazor host page and static assets, served from the output directory
+       (the Razor SDK already includes wwwroot as Content) -->
+  <ItemGroup>
+    <Content Update="wwwroot\**" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <!-- App Icon -->
+  <ItemGroup>
+    <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#FFFFFF" BackgroundColor="#512BD4" />
+  </ItemGroup>
+
+</Project>

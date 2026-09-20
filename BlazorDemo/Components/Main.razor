@@ -1,0 +1,46 @@
+@inject WeatherService Weather
+
+<div class="app">
+    <header>
+        <h1>Blazor Hybrid on OpenMaui</h1>
+        <p class="sub">Razor components rendered by WPE WebKit, composited in the Skia tree, on native Wayland</p>
+    </header>
+
+    <section class="card">
+        <h2>Counter (JS to .NET to JS round trip)</h2>
+        <p>Current count: <strong>@currentCount</strong></p>
+        <button class="btn" @onclick="IncrementCount">Click me</button>
+        <button class="btn secondary" @onclick="() => currentCount = 0">Reset</button>
+    </section>
+
+    <section class="card">
+        <h2>Two-way binding</h2>
+        <input placeholder="Type here" @bind="text" @bind:event="oninput" />
+        <p>You typed: <em>@(string.IsNullOrEmpty(text) ? "(nothing yet)" : text)</em> (@text.Length chars)</p>
+    </section>
+
+    <section class="card">
+        <h2>Injected .NET service</h2>
+        <table>
+            <thead><tr><th>Date</th><th>Temp (C)</th><th>Summary</th></tr></thead>
+            <tbody>
+                @foreach (var day in Weather.GetForecast())
+                {
+                    <tr><td>@day.Date.ToShortDateString()</td><td>@day.TempC</td><td>@day.Summary</td></tr>
+                }
+            </tbody>
+        </table>
+    </section>
+
+    <section class="card">
+        <h2>External link</h2>
+        <p>Opens in the system browser via <code>UrlLoading</code>: <a href="https://learn.microsoft.com/aspnet/core/blazor/hybrid">Blazor Hybrid docs</a></p>
+    </section>
+</div>
+
+@code {
+    private int currentCount = 0;
+    private string text = string.Empty;
+
+    private void IncrementCount() => currentCount++;
+}

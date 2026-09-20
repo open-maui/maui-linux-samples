@@ -43,10 +43,14 @@ class Program
             // Create the MAUI app with all handlers registered
             var app = MauiProgram.CreateMauiApp();
 
-            // Run on Linux platform with GTK mode for WebView support
+            // With WPE WebKit installed the WebView is composited in the Skia
+            // tree and runs in native Wayland/X11 mode; the GTK-hosted WebKitGTK
+            // fallback still needs GTK mode. Force one with OPENMAUI_WEBVIEW=wpe|webkitgtk.
+            bool useGtk = Microsoft.Maui.Platform.Linux.Handlers.WebViewBackend.Resolve()
+                != Microsoft.Maui.Platform.Linux.Handlers.WebViewBackend.Kind.Wpe;
             LinuxApplication.Run(app, args, options =>
             {
-                options.UseGtk = true;
+                options.UseGtk = useGtk;
             });
         }
         catch (Exception ex)

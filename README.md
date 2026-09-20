@@ -14,6 +14,7 @@ Sample applications demonstrating [OpenMaui Linux](https://github.com/open-maui/
   - [TodoApp](#todoapp)
   - [ShellDemo](#shelldemo)
   - [WebViewDemo](#webviewdemo)
+  - [BlazorDemo](#blazordemo)
   - [MediaDemo](#mediademo)
   - [MapsDemo](#mapsdemo)
 - [Project Structure](#project-structure)
@@ -42,7 +43,8 @@ This repository contains production-ready sample applications showcasing **OpenM
 |--------|-------------|--------------|
 | [TodoApp](./TodoApp/) | Full-featured task manager | NavigationPage, XAML data binding, CollectionView, value converters, theme switching |
 | [ShellDemo](./ShellDemo/) | Comprehensive control showcase | Shell navigation, flyout menu, all core controls, event logging, drag & drop, clipboard/primary selection, system tray icon, CUPS printing |
-| [WebViewDemo](./WebViewDemo/) | Web browser with WebKitGTK | WebView, JavaScript evaluation, GTK integration, HTML rendering |
+| [WebViewDemo](./WebViewDemo/) | Web browser with WPE WebKit (WebKitGTK fallback) | WebView in native Wayland/X11 mode, JavaScript evaluation, context menus, clipboard, HTML rendering |
+| [BlazorDemo](./BlazorDemo/) | Blazor Hybrid on Linux | BlazorWebView, Razor components, @onclick/@bind round trips, DI-injected services, UrlLoading |
 | [MediaDemo](./MediaDemo/) | Video / audio playback via MediaElement | CommunityToolkit.Maui.MediaElement on Linux, GStreamer backend, play/pause/stop/seek/volume/mute |
 | [MapsDemo](./MapsDemo/) | OpenStreetMap map view with pins, route, and shape overlays | Microsoft.Maui.Controls.Maps on Linux, OSM raster tile cache, Pin/Polyline/Polygon/Circle overlays, pan/zoom |
 
@@ -61,9 +63,12 @@ sudo apt-get install libfontconfig1-dev libfreetype6-dev
 # Fedora/RHEL
 sudo dnf install fontconfig-devel freetype-devel
 
-# For WebView support (WebViewDemo)
-sudo apt-get install libwebkit2gtk-4.0-dev  # Ubuntu/Debian
-sudo dnf install webkit2gtk3-devel          # Fedora/RHEL
+# For WebView and BlazorWebView (WebViewDemo, BlazorDemo): WPE WebKit 2.54+
+sudo apt-get install libwpewebkit-2.0-1                        # Debian sid / Ubuntu
+sudo dnf copr enable philn/wpewebkit && sudo dnf install wpewebkit   # Fedora (no official package)
+# Without WPE, WebViewDemo falls back to WebKitGTK in GTK mode:
+sudo apt-get install libwebkit2gtk-4.1-0    # Ubuntu/Debian
+sudo dnf install webkit2gtk4.1              # Fedora/RHEL
 
 # For MediaElement support (MediaDemo)
 # Ubuntu/Debian:
@@ -353,11 +358,11 @@ Application logs are written to `~/shelldemo.log` for debugging.
 
 ### WebViewDemo
 
-A web browser application demonstrating WebView integration with WebKitGTK.
+A web browser application demonstrating the WebView. With WPE WebKit installed the page is composited inside the Skia render tree and the app runs in native Wayland/X11 mode; without it the sample falls back to the GTK-hosted WebKitGTK view. `OPENMAUI_WEBVIEW=wpe|webkitgtk` forces a backend.
 
 **Features:**
 - **WebView** with full HTML5 support
-- **WebKitGTK** backend (same engine as GNOME Web)
+- **WPE WebKit** backend (WebKitGTK fallback), context menus, clipboard
 - **Navigation controls** (back, forward, reload)
 - **URL entry** with automatic https:// prefix
 - **JavaScript evaluation** via `EvaluateJavaScriptAsync`
@@ -419,6 +424,23 @@ private void OnLoadHtmlClicked(object? sender, EventArgs e)
 
 **Logging:**
 Application logs are written to `~/webviewdemo.log` for debugging.
+
+### BlazorDemo
+
+Blazor Hybrid on Linux: a MAUI (Skia) toolbar above a `BlazorWebView` hosted in WPE WebKit, in native Wayland/X11 mode. Requires WPE WebKit 2.54+ and the `OpenMaui.Controls.Linux.Blazor` package (`.UseLinuxBlazorWebView()`).
+
+**Features:**
+- **Razor components** rendered by WebKit, served through the `app://localhost/` scheme
+- **Counter** (`@onclick`): JavaScript to .NET to JavaScript round trip
+- **Two-way binding** (`@bind`) on an input
+- **DI-injected .NET service** (`WeatherService`) consumed by a component
+- **External links** opened in the system browser through `UrlLoading`
+- **`BlazorWebViewInitialized`** surfacing in the MAUI toolbar
+
+```bash
+cd BlazorDemo
+dotnet build && ./run.sh
+```
 
 ### MediaDemo
 
